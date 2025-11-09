@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:focus_app/common/widgets/clocks/ui/dialog/clock_session_dialog.dart';
 import 'package:focus_app/common/widgets/containers/icon_container.dart';
+import 'package:focus_app/common/widgets/modal_bottom_sheets/model_bottom_sheet_barrier.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
@@ -46,7 +48,7 @@ class ClockTimerUi extends StatelessWidget {
           _buildSessionIndicator(),
       
           // 3. PHẦN CÁC NÚT ĐIỀU KHIỂN
-          _buildControls(),
+          _buildControls(context),
         ],
       ),
     );
@@ -108,7 +110,7 @@ class ClockTimerUi extends StatelessWidget {
   }
 
   /// Widget chứa các nút điều khiển: Reset, Play/Pause, Skip
-  Widget _buildControls() {
+  Widget _buildControls(BuildContext ctx) {
     return Row(
       spacing: Sizes.md,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -117,6 +119,22 @@ class ClockTimerUi extends StatelessWidget {
         IconContainer(
           icon: Icons.refresh,
           backgroundColor: AppColors.primaryLight,
+          onPressed: () {
+            ModelBottomSheetBarrier().show(
+              context: ctx,
+              child: ClockSessionDialog(
+                title: "Reset Session",
+                desc: "Reset the current focus session?",
+                onConfirmed: () {
+                  
+                },
+                confirmTitle: "Yes, Reset",
+              ),
+              isSnap: false,
+              initialChildSize: 0.3,
+              minChildSize: 0.3,
+            );
+          },
         ),
         
         // Nút Play/Pause lớn ở giữa
@@ -148,7 +166,23 @@ class ClockTimerUi extends StatelessWidget {
         // Nút Skip
         IconContainer(
           icon: Icons.skip_next,
-          backgroundColor: AppColors.primaryLight
+          backgroundColor: AppColors.primaryLight,
+          onPressed: () {
+            ModelBottomSheetBarrier().show(
+              context: ctx,
+              child: ClockSessionDialog(
+                title: "Skip Session",
+                desc: "Skip the current focus session?",
+                onConfirmed: () {
+                  
+                },
+                confirmTitle: "Yes, Skip",
+              ),
+              isSnap: false,
+              initialChildSize: 0.3,
+              minChildSize: 0.3,
+            );
+          },
         )
       ],
     );

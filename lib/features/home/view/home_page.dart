@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:focus_app/common/widgets/appBars/app_bar.dart';
 import 'package:focus_app/common/widgets/cards/task_card.dart';
 import 'package:focus_app/common/widgets/clocks/clock.dart';
-import 'package:focus_app/common/widgets/clocks/clock_option_bar.dart';
-import 'package:focus_app/common/widgets/containers/rounded_container.dart';
 import 'package:focus_app/features/home/view/widgets/recently_section.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
@@ -44,11 +42,8 @@ class HomePage extends StatelessWidget {
               },
             ),
       
-            RoundedContainer(
-              height: Sizes.clockBannerHeight,
-              child: const Clock()
-            ),
-            ClockOptionBar(),
+            Clock(),
+      
       
             RecentlySection()
           ],
