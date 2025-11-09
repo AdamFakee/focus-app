@@ -7,11 +7,15 @@ class AppColors {
 
   // --- MÀU CHUNG ---
   static const primary = Color(0xFFFF4649);
+  static const primaryLight = Color(0xFFFEEEF1);
   static const secondary = Color(0xFF1791ED);
   static const orange = Color(0xFFFF9325);
   static const green = Color(0xFF47AC51);
-  static const red = Color(0xFFD32F2F); // Giữ lại màu lỗi cũ hoặc dùng màu đỏ từ ảnh
-  static const warning = Color(0xFFF57C00); // Giữ lại màu cảnh báo cũ hoặc dùng màu cam từ ảnh
+  static const red = Color(0xFFD32F2F);
+  static const warning = Color(0xFFF57C00); 
+  static const gray = Color(0xFFBCBCBC); 
+  static const black = Color(0xFF000000);
+  static const white = Color(0xFFFFFFFF);
 
   // --- CÀI ĐẶT CHO TỪNG CHẾ ĐỘ ---
   static final light = _LightMode();
@@ -38,11 +42,7 @@ class _LightMode {
 
   // Màu cho các thành phần UI (Surface/Card)
   final Color surface = const Color(0xFFFFFFFF);
-  final Color border = const Color(0xFFEEEEEE);
-
-  // Các màu khác
-  final Color black = const Color(0xFF000000);
-  final Color white = const Color(0xFFFFFFFF);
+  final Color border = const Color(0xFFEEEEEE);  
 }
 
 class _DarkMode {

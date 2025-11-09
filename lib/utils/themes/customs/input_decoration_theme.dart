@@ -43,8 +43,8 @@ class InputDecorationThemes {
     errorMaxLines: 3,
     filled: true,
     fillColor: AppColors.light.backgroundGray,
-    prefixIconColor: AppColors.light.black,
-    suffixIconColor: AppColors.light.black,
+    prefixIconColor: AppColors.black,
+    suffixIconColor: AppColors.black,
     labelStyle: AppTextThemes.lightTextTheme.bodyMedium,
     hintStyle: AppTextThemes.lightTextTheme.bodyMedium,
     errorStyle: AppTextThemes.lightTextTheme.bodyMedium!.copyWith(color: AppColors.red),
@@ -59,7 +59,7 @@ class InputDecorationThemes {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(width: _borderWidth, color: AppColors.light.black),
+      borderSide: BorderSide(width: _borderWidth, color: AppColors.black),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),

@@ -18,14 +18,14 @@ class AppTextThemes {
 
   static TextTheme get lightTextTheme {
     return TextTheme(
-      bodyLarge: AppTextStyles.bodyLg.copyWith(color: AppColors.light.black),
-      bodyMedium: AppTextStyles.body.copyWith(color: AppColors.light.black),
-      titleMedium: AppTextStyles.bodySm.copyWith(color: AppColors.light.black),
-      titleSmall: AppTextStyles.bodyXs.copyWith(color: AppColors.light.black),
-      displayLarge: AppTextStyles.h1.copyWith(color: AppColors.light.black),
-      displayMedium: AppTextStyles.h2.copyWith(color: AppColors.light.black),
-      displaySmall: AppTextStyles.h3.copyWith(color: AppColors.light.black),
-      headlineMedium: AppTextStyles.h4.copyWith(color: AppColors.light.black),
+      bodyLarge: AppTextStyles.bodyLg.copyWith(color: AppColors.black),
+      bodyMedium: AppTextStyles.body.copyWith(color: AppColors.black),
+      titleMedium: AppTextStyles.bodySm.copyWith(color: AppColors.black),
+      titleSmall: AppTextStyles.bodyXs.copyWith(color: AppColors.black),
+      displayLarge: AppTextStyles.h1.copyWith(color: AppColors.black),
+      displayMedium: AppTextStyles.h2.copyWith(color: AppColors.black),
+      displaySmall: AppTextStyles.h3.copyWith(color: AppColors.black),
+      headlineMedium: AppTextStyles.h4.copyWith(color: AppColors.black),
     );
   }
 }

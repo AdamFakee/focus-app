@@ -20,7 +20,7 @@ class AppbarThemes {
     backgroundColor: Colors.transparent,
     elevation: 0,
     centerTitle: false,
-    iconTheme: IconThemeData(size: 22, color: AppColors.light.black, weight: 20),
+    iconTheme: IconThemeData(size: 22, color: AppColors.black, weight: 20),
     titleSpacing: Sizes.md,
     actionsPadding: EdgeInsets.only(right: Sizes.md),
     scrolledUnderElevation: 0,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_app/features/home/home.dart';
+import 'package:focus_app/utils/routers/bottom_navigations/bottom_navigation.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -8,13 +8,11 @@ class AppRouters {
 
   static final GoRouter routers = GoRouter(
     navigatorKey: rootKey,
-    initialLocation: '/',
+    initialLocation: '/home',
     restorationScopeId: 'router',
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const Home(),
-      )
+      // Bottom navigation
+      BottomNavigation.routers,
     ],
   ); 
 }

@@ -1,6 +1,7 @@
 class Sizes {
   /// Container height
   static const double homeBannerHeight = 140;
+  static const double clockBannerHeight = 380;
 
   // Padding and margin sizes
   static const double xs = 4.0;
