@@ -42,7 +42,7 @@ class InputDecorationThemes {
   static InputDecorationTheme lightTheme = InputDecorationTheme(
     errorMaxLines: 3,
     filled: true,
-    fillColor: AppColors.light.backgroundGray,
+    fillColor: AppColors.lightGray,
     prefixIconColor: AppColors.black,
     suffixIconColor: AppColors.black,
     labelStyle: AppTextThemes.lightTextTheme.bodyMedium,
@@ -51,11 +51,11 @@ class InputDecorationThemes {
     floatingLabelStyle: TextStyle(color: Colors.white),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(width: _borderWidth, color: AppColors.light.backgroundGray),
+      borderSide: BorderSide(width: _borderWidth, color: AppColors.lightGray),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(width: _borderWidth, color: AppColors.light.backgroundGray),
+      borderSide: BorderSide(width: _borderWidth, color: AppColors.lightGray),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),

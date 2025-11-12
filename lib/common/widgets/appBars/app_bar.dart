@@ -10,12 +10,13 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle = true,
     this.showBackButton = true, 
     this.actions, 
-    this.padding = const EdgeInsetsGeometry.only(right: Sizes.defaultSpace)
+    this.padding = const EdgeInsetsGeometry.only(right: Sizes.defaultSpace), this.leading
   });
 
   final bool centerTitle;
   final String? title;
   final bool showBackButton;
+  final Widget? leading;
   final List<Widget>? actions;
   final EdgeInsetsGeometry padding;
 
@@ -26,12 +27,12 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         centerTitle: centerTitle,
         titleSpacing: 0,
-        leading: showBackButton ? IconButton(
+        leading: leading ?? (showBackButton ? IconButton(
           onPressed: () {
             context.pop();
           },
           icon: Icon(Icons.arrow_back),
-        ) : null,
+        ) : null),
         automaticallyImplyLeading: false,
         title: title != null ? Text(title!, style: Theme.of(context).textTheme.headlineMedium!.apply(
           fontWeightDelta: 2,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_app/common/widgets/clocks/ui/clock_option_bar.dart';
-import 'package:focus_app/common/widgets/clocks/ui/clock_strict_mode_dialog.dart';
+import 'package:focus_app/common/widgets/clocks/ui/dialog/clock_strict_mode_dialog.dart';
 import 'package:focus_app/common/widgets/clocks/ui/dialog/clock_timer_dialog.dart';
 import 'package:focus_app/common/widgets/clocks/ui/clock_timer_ui.dart';
 import 'package:focus_app/common/widgets/clocks/painter/counter_clock.dart';

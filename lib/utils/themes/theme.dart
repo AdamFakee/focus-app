@@ -31,7 +31,7 @@ class AppThemes {
       useMaterial3: true,
       brightness: Brightness.light,
       primaryColor: AppColors.primary,
-      scaffoldBackgroundColor: AppColors.light.background,
+      scaffoldBackgroundColor: AppColors.white,
       textTheme: AppTextThemes.lightTextTheme,
       appBarTheme: AppbarThemes.lightTheme,
       elevatedButtonTheme: ElevationButtonThemes.lightTheme,

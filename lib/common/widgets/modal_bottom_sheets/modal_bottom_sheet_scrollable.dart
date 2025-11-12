@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:focus_app/utils/const/colors.dart';
-import 'package:focus_app/utils/const/sizes.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// dùng để hiển thị model bottom
 /// 
-/// trường hợp sử dụng: dùng khi muốn hiển thị [barrier] (lớp phủ) kèm theo model bottom
-class ModelBottomSheetBarrier {
+/// trường hợp sử dụng: dùng khi muốn hiển thị [barrier] (lớp phủ) kèm theo model bottom. `Tuy nhiên, child muốn được giới hạn không gian = Expand(Column)`
+class ModalBottomSheetScrollable {
   Future<T?> show<T>({
     required BuildContext context,
     required Widget child,
@@ -15,7 +14,8 @@ class ModelBottomSheetBarrier {
     bool isSnap = true,
     List<double> snapSizes = const [0.6, 0.8, 1],
     double initialChildSize = 0.5,
-    double minChildSize = 0.2
+    double minChildSize = 0.2,
+    Color bg = AppColors.white
   }) {
 
     return showMaterialModalBottomSheet<T>(
@@ -24,6 +24,7 @@ class ModelBottomSheetBarrier {
       expand: false,
       context: context,
       barrierColor: barrierColor ?? Color(0xFF6B7178).withOpacity(0.5),
+      backgroundColor: bg,
       
       /// [DraggableScrollableSheet] có thể kéo thả điều chỉnh chiều cao chỉ khi bên trong nó có widget được kế thừa từ scrollController
       builder: (context) => DraggableScrollableSheet(
@@ -81,22 +82,7 @@ class ModelBottomSheetBarrier {
                   // khi widget này scroll sẽ không thông báo tới "parent widget"
                   return true;
                 },
-                child: SingleChildScrollView(
-                  /// Commen giải thích::::
-                  ///
-                  /// nghĩa là không dùng scrollControler ở đây để khi scroll "child widget" sẽ không điều khiển luôn cả widget "bottom sheet"
-                  /// vì đang sử dụng scrollController cấp cao nhất
-                  ///
-                  // controller: scrollController,
-                  physics:
-                      AlwaysScrollableScrollPhysics(), // cho phép "child widget" scroll
-                  padding: EdgeInsets.only(
-                    left: Sizes.sm,
-                    right: Sizes.sm,
-                    bottom: Sizes.md
-                  ),
-                  child: child
-                ),
+                child: child,
               ),
             ),
           ],
@@ -104,5 +90,4 @@ class ModelBottomSheetBarrier {
       ),
     );
   }
-
 }

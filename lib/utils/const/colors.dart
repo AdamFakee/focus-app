@@ -14,6 +14,8 @@ class AppColors {
   static const red = Color(0xFFD32F2F);
   static const warning = Color(0xFFF57C00); 
   static const gray = Color(0xFFBCBCBC); 
+  static const lightGray = Color(0xFFFAFAFA);
+  static const darkGray = Color(0xFF454545);
   static const black = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
 
@@ -37,7 +39,6 @@ class _LightMode {
 
   // Màu nền (Background)
   final Color background = const Color(0xFFF6F6F6);
-  final Color backgroundGray = const Color(0xFFFAFAFA);
   final Color backgroundSubtle = const Color(0xFFFFF0F0); // Một màu nền nhẹ nhàng
 
   // Màu cho các thành phần UI (Surface/Card)

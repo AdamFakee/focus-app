@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:focus_app/utils/const/colors.dart';
-import 'package:focus_app/utils/routers/app_router_names.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 
@@ -42,10 +41,6 @@ class BottomNavigationWidget extends StatelessWidget {
   }
 
   void _onChangeBottomTab(int value, StatefulNavigationShell navigationShell, BuildContext context) {
-    if(value == 1) {
-      context.go(AppRouterNames.homeTab);
-      return;
-    }
     navigationShell.goBranch(
       value,
       initialLocation: value == navigationShell.currentIndex,
