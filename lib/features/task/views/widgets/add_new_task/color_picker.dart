@@ -6,7 +6,7 @@ import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/data/colors/task_colors.dart';
 
 class ColorPickerWidget extends StatelessWidget {
-  final Color selectedColor;
+  final Color? selectedColor;
   final ValueChanged<Color> onColorSelected;
   final VoidCallback? onCustomColorTap; // Callback cho nút chọn màu tùy chỉnh
 
@@ -39,6 +39,10 @@ class ColorPickerWidget extends StatelessWidget {
         }
       )
     );
+
+    if(color != null) {
+      onColorSelected(color);
+    }
 
     print(color.toString());
   }
@@ -83,8 +87,7 @@ class ColorPickerWidget extends StatelessWidget {
             
             // --- Nếu không, build một ô màu bình thường ---
             final color = taskColors[index];
-            final isSelected = selectedColor.value == color.value;
-
+            final isSelected = selectedColor == color;
             return GestureDetector(
               onTap: () => onColorSelected(color),
               child: CircleAvatar(

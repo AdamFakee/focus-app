@@ -1,0 +1,30 @@
+import 'package:focus_app/features/task/models/task_model.dart';
+import 'package:focus_app/utils/storages/sql/database.dart';
+import 'package:focus_app/utils/storages/sql/tables/task/task_table.dart';
+
+class TaskServices {
+  // single ton
+  static final TaskServices _instance = TaskServices._internal();
+  TaskServices._internal();
+  factory TaskServices() => _instance;
+
+
+  final _db = AppDatabase().db;
+
+  Future<int> createTask(TaskModel task) async {
+    return await _db.insert(TaskTable.tableName, task.toJson());
+  }
+
+  Future<List<Map<String, Object?>>> getAll ({
+    int page = 1,
+    int limit = 99999
+  }) async {
+    final offset = (page - 1) * limit;
+
+    return await _db.query(
+      TaskTable.tableName,
+      limit: limit,
+      offset: offset
+    );
+  }
+}

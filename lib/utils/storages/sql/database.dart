@@ -5,13 +5,13 @@ import 'package:focus_app/utils/storages/sql/configs/open_db_options.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class FDatabase {
+class AppDatabase {
   // signle instance
-  static final FDatabase _instance = FDatabase._internal();
+  static final AppDatabase _instance = AppDatabase._internal();
 
-  FDatabase._internal();
+  AppDatabase._internal();
 
-  factory FDatabase() => _instance;
+  factory AppDatabase() => _instance;
 
   // variables
   late final Database _db;

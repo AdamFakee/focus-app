@@ -9,7 +9,7 @@ Future<void> mainCommon (AppEnvEnum environment) async {
   await AppEnv.init(environment);
 
   // init Sqflite database
-  await FDatabase().init();
+  await AppDatabase().init();
 
 
   runApp(MyApp());

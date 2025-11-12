@@ -35,7 +35,6 @@ class _IconSelectionSheet extends StatefulWidget {
 class _IconSelectionSheetState extends State<_IconSelectionSheet> {
 
   // query
-  Timer? _debounce;
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -52,7 +51,6 @@ class _IconSelectionSheetState extends State<_IconSelectionSheet> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
     _searchController.dispose();
     super.dispose();
   }

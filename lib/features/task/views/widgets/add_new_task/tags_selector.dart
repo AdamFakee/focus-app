@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/containers/rounded_container.dart';
 import 'package:focus_app/common/widgets/sections/section_lable.dart';
+import 'package:focus_app/features/task/blocs/add_new_task/add_new_task_bloc.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
-final List<String> _tags = ['General', 'Design', 'Urgent', 'Work', 'Personal', 'Development'];
 
 class TagSelector extends StatelessWidget {
-  final Set<String> selectedTags;
-  final ValueChanged<String> onSelected;
 
-  const TagSelector({super.key, required this.selectedTags, required this.onSelected});
+  const TagSelector({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tags = context.watch<AddNewTaskBloc>().state.tags;
+    final tagIds = context.watch<AddNewTaskBloc>().state.tagIds;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: Sizes.sm,
@@ -24,16 +25,20 @@ class TagSelector extends StatelessWidget {
           child: Row(
             spacing: Sizes.sm,
             mainAxisSize: MainAxisSize.min,
-            children: _tags.map((tag) {
-              final isSelected = selectedTags.contains(tag);
+            children: tags.map((tag) {
+              final isSelected = tagIds.contains(tag.tagId);
               return RoundedContainer(
                 radius: Sizes.lg,
                 bg: isSelected ? AppColors.primary : Colors.transparent,
-                onPressed: () => onSelected(tag),
+                onPressed: () {
+                  if(tag.tagId != null) {
+                    context.read<AddNewTaskBloc>().add(AddNewTaskProjectSelected(tag.tagId));
+                  }
+                },
                 border: Border.all(
                   color: isSelected ? AppColors.primary : AppColors.gray
                 ),
-                child: Text(tag),
+                child: Text(tag.name),
               );
             }).toList(),
           ),
