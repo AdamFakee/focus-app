@@ -13,10 +13,10 @@ class TaskModel {
   final int completedPomodoros; // Số pomodoro đã hoàn thành
   final TaskStatus status;
   // Lưu projectId, có thể null nếu task không thuộc project nào
-  final String? projectId; 
+  final int? projectId; 
   
   // Một task có thể có nhiều tag, nên ta lưu một danh sách các tagId
-  final List<String> tagIds; 
+  final List<int> tagIds; 
 
   final Color color;
   final IconData icon;
@@ -39,8 +39,8 @@ class TaskModel {
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     final tagIdsRaw = json[TaskTable.columnTagIds];
-    final List<String> tagIds = tagIdsRaw != null && tagIdsRaw is String
-        ? List<String>.from(jsonDecode(tagIdsRaw))
+    final List<int> tagIds = tagIdsRaw != null && tagIdsRaw is String
+        ? List<int>.from(jsonDecode(tagIdsRaw))
         : [];
 
     final statusRaw = json[TaskTable.columnStatus];

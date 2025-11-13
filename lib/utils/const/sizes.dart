@@ -1,4 +1,8 @@
 class Sizes {
+  // constraints
+  static const double inputConstraintIconMinHeight = 48;
+  static const double inputConstraintIconMaxWidth = 48;
+
   /// Container height
   static const double homeBannerHeight = 140;
   static const double clockBannerHeight = 380;

@@ -113,7 +113,7 @@ class _TaskFloatingButtonState extends State<TaskFloatingButton> with SingleTick
             icon: Icons.sell_outlined,
             title: 'Tag',
             onTap: () {
-              // Xử lý logic khi nhấn "Tag"
+              context.push(AppRouterNames.addNewTag);
             },
           ),
         ],

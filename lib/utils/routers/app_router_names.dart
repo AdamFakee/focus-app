@@ -6,4 +6,5 @@ class AppRouterNames {
   // --------- task -----------
   static const taskTab = '/task';
   static const addNewTask = '$taskTab/addNewTask';
+  static const addNewTag = '$taskTab/addNewTag';
 }

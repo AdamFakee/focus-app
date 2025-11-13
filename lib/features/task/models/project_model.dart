@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:focus_app/utils/storages/sql/tables/project/project_table.dart';
 
 class ProjectModel {
-  final String? projectId;
+  final int? projectId;
   final String name;
   final Color color;
   final DateTime createdAt;

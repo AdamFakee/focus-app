@@ -33,7 +33,7 @@ final class AddNewTaskColorChanged extends AddNewTaskEvent {
 }
 
 final class AddNewTaskProjectSelected extends AddNewTaskEvent {
-  final String? projectId;
+  final int? projectId;
   AddNewTaskProjectSelected(this.projectId);
 
   @override
@@ -41,7 +41,7 @@ final class AddNewTaskProjectSelected extends AddNewTaskEvent {
 }
 
 final class AddNewTaskTagsUpdated extends AddNewTaskEvent {
-  final List<String> tagIds;
+  final List<int> tagIds;
   AddNewTaskTagsUpdated(this.tagIds);
 
   @override

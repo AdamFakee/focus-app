@@ -19,8 +19,8 @@ class AddNewTaskState extends Equatable {
   final String taskName;
   final IconData? icon;
   final int pomodoros;
-  final String? projectId;
-  final List<String> tagIds;
+  final int? projectId;
+  final List<int> tagIds;
   final Color? color;
 
   // Nguồn dữ liệu để hiển thị trong UI 
@@ -50,8 +50,8 @@ class AddNewTaskState extends Equatable {
     String? taskName,
     IconData? icon,
     int? pomodoros,
-    String? projectId,
-    List<String>? tagIds,
+    int? projectId,
+    List<int>? tagIds,
     Color? color,
     List<ProjectModel>? projects,
     List<TagModel>? tags,

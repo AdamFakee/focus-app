@@ -11,9 +11,10 @@ class TagRepo {
   // variables
   final _tagServices = TagServices();
 
-  Future<bool> createTask (TagModel tag) async {
+  Future<bool> createTag (TagModel tag) async {
     return await HandleThrowException<bool>(() async {
       final res = await _tagServices.createTag(tag);
+      print(res);
       return res > 0 ? true : false;
     });
   }
