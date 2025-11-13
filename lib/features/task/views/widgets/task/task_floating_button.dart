@@ -105,7 +105,7 @@ class _TaskFloatingButtonState extends State<TaskFloatingButton> with SingleTick
             icon: Icons.work_outline,
             title: 'Project',
             onTap: () {
-              // Xử lý logic khi nhấn "Project"
+              context.push(AppRouterNames.addNewProject);
             },
           ),
           _buildMenuItem(

@@ -62,7 +62,7 @@ class ProjectDropdown extends StatelessWidget {
         if(projects.isEmpty) 
           AddButtonCommon(
             onPressed: () {
-              context.push(AppRouterNames.addNewTag);
+              context.push(AppRouterNames.addNewProject);
             }, 
             title: "Create New Project"
           )

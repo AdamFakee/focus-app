@@ -16,7 +16,7 @@ class ProjectModel {
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) {
     return ProjectModel(
-      projectId: json[ProjectTable.columnProjectId],
+      projectId: json[ProjectTable.columnProjectId] as int,
       name: json[ProjectTable.columnName],
       color: Color(json[ProjectTable.columnColor]),
       createdAt: DateTime.parse(json[ProjectTable.columnCreatedAt]),
@@ -25,7 +25,6 @@ class ProjectModel {
 
   Map<String, dynamic> toJson() {
     return {
-      ProjectTable.columnProjectId: projectId,
       ProjectTable.columnName: name,
       ProjectTable.columnColor: color.toARGB32(),
       ProjectTable.columnCreatedAt: createdAt.toIso8601String(),

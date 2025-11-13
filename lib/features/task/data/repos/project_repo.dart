@@ -11,7 +11,7 @@ class ProjectRepo {
   // variables
   final _projectServices = ProjectServices();
 
-  Future<bool> createTask (ProjectModel project) async {
+  Future<bool> createProject (ProjectModel project) async {
     return await HandleThrowException<bool>(() async {
       final res = await _projectServices.createProject(project);
       return res > 0 ? true : false;

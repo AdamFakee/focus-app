@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_app/features/task/views/screens/add_new_project/add_new_project_screen.dart';
 import 'package:focus_app/features/task/views/screens/add_new_tag/add_new_tag_screen.dart';
 import 'package:focus_app/features/task/views/screens/add_new_task/add_new_task_screen.dart';
 import 'package:focus_app/features/task/views/screens/task/task_screen.dart';
@@ -25,6 +26,11 @@ class TaskTabBottomNavigation {
             parentNavigatorKey: AppRouters.rootKey,
             path: 'addNewTag',
             builder: (context, state) => const AddNewTagScreen(),
+          ),
+          GoRoute(
+            parentNavigatorKey: AppRouters.rootKey,
+            path: 'addNewProject',
+            builder: (context, state) => const AddNewProjectScreen(),
           )
         ]
       )
