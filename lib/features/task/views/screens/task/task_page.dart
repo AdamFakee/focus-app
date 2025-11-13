@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:focus_app/common/widgets/appBars/app_bar.dart';
 import 'package:focus_app/features/task/views/widgets/task/active_tasks_tab.dart';
 import 'package:focus_app/features/task/views/widgets/task/completed_tasks_tab.dart';
+import 'package:focus_app/features/task/views/widgets/task/task_app_bar.dart';
 import 'package:focus_app/features/task/views/widgets/task/task_floating_button.dart';
 import 'package:focus_app/features/task/views/widgets/task/task_tab_bars.dart';
 import 'package:focus_app/utils/const/sizes.dart';
+
+enum TaskMenuAction { manageProjects, manageTags }
+
 
 class TaskPage extends StatelessWidget {
   const TaskPage({super.key});
@@ -12,10 +15,7 @@ class TaskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CommonAppBar(
-          title: 'Task',
-          showBackButton: false,
-        ),
+        appBar: TaskAppBar(),
         body: DefaultTabController(
           initialIndex: 0,
           length: 2,
