@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/containers/rounded_container.dart';
 import 'package:focus_app/features/task/blocs/add_new_task/add_new_task_bloc.dart';
-import 'package:focus_app/features/task/views/widgets/add_new_task/icon_picker_dialog.dart';
+import 'package:focus_app/features/task/views/widgets/common/icon_picker_dialog.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

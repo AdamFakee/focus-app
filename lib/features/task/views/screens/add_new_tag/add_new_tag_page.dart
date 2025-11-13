@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/appBars/app_bar.dart';
 import 'package:focus_app/common/widgets/buttons/cancel_confirm_buttons.dart';
 import 'package:focus_app/features/task/blocs/add_new_tag/add_new_tag_bloc.dart';
-import 'package:focus_app/features/task/views/widgets/add_new_tag/input_name_field.dart';
-import 'package:focus_app/features/task/views/widgets/add_new_task/color_picker.dart';
+import 'package:focus_app/features/task/views/widgets/common/input_name_field.dart';
+import 'package:focus_app/features/task/views/widgets/common/color_picker.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
@@ -27,12 +27,13 @@ class AddNewTagPage extends StatelessWidget {
         child: Column(
           spacing: Sizes.spaceBtwSections,
           children: [
-            BlocSelector<AddNewTagBloc, AddNewTagState, String?>(
+            BlocSelector<AddNewTagBloc, AddNewTagState, ({String? tagName, Color? color})>(
               selector: (state) {
-                return state.tagName;
+                return (tagName: state.tagName, color: state.color);
               },
               builder: (context, state) {
                 return InputIconNameField(
+                  iconColor: state.color,
                   onChangeText: (text) {
                     context.read<AddNewTagBloc>().add(
                       AddNewTagNameChanged(tagName: text),

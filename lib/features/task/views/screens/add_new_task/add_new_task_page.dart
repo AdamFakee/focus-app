@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/appBars/app_bar.dart';
 import 'package:focus_app/common/widgets/buttons/cancel_confirm_buttons.dart';
 import 'package:focus_app/features/task/blocs/add_new_task/add_new_task_bloc.dart';
-import 'package:focus_app/features/task/views/widgets/add_new_task/color_picker.dart';
+import 'package:focus_app/features/task/views/widgets/common/color_picker.dart';
 import 'package:focus_app/features/task/views/widgets/add_new_task/icon_picker.dart';
 import 'package:focus_app/features/task/views/widgets/add_new_task/pomodoro_selector.dart';
 import 'package:focus_app/features/task/views/widgets/add_new_task/project_drop_down.dart';

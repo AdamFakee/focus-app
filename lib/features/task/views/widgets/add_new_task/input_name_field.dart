@@ -3,10 +3,11 @@ import 'package:focus_app/common/widgets/sections/section_lable.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
 class InputNameField extends StatefulWidget {
+  final String? defaultValue;
   final String sectionTitle;
   final void Function(String text) onChangeText;
 
-  const InputNameField({super.key, required this.sectionTitle, required this.onChangeText});
+  const InputNameField({super.key, required this.sectionTitle, required this.onChangeText, this.defaultValue});
 
   @override
   State<InputNameField> createState() => _InputNameFieldState();
@@ -17,7 +18,7 @@ class _InputNameFieldState extends State<InputNameField> {
 
   @override
   void initState() {
-    controller = TextEditingController();
+    controller = TextEditingController(text: widget.defaultValue);
     controller.addListener(() {
       widget.onChangeText(controller.text);
     });

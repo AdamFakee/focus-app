@@ -4,14 +4,26 @@ import 'package:focus_app/utils/const/icons.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// Hiển thị bố cục dạng:
+///
+/// ```text
+/// title
+/// icon  input
+/// ```
+///
+/// Dùng trong form nhập dữ liệu có biểu tượng ở đầu.
 class InputIconNameField extends StatefulWidget {
+  final String? defaultValue;
   final String sectionTitle;
   final IconData icon;
+  final Color? iconColor;
   final void Function(String text) onChangeText;
 
   const InputIconNameField({
     super.key, required this.sectionTitle, required this.onChangeText,
-    this.icon = AppIcons.label
+    this.icon = AppIcons.label,
+    this.iconColor,
+    this.defaultValue
   });
 
   @override
@@ -23,7 +35,7 @@ class _InputIconNameFieldState extends State<InputIconNameField> {
 
   @override
   void initState() {
-    controller = TextEditingController();
+    controller = TextEditingController(text: widget.defaultValue);
     controller.addListener(() {
       widget.onChangeText(controller.text);
     });
@@ -44,7 +56,7 @@ class _InputIconNameFieldState extends State<InputIconNameField> {
           controller: controller,
           decoration: InputDecoration(
             hintText: 'e.g. Write proposal, Designing, etc.',
-            prefixIcon: Center(child: FaIcon(widget.icon)),
+            prefixIcon: Center(child: FaIcon(widget.icon, color: widget.iconColor,)),
             /// [FaIcon] bỏ [SizedBox] & [Centern] => nó không căn giữa => tạo ràng buộc 
             /// Vào source của FaIcon & Icon sẽ rõ hơn
             prefixIconConstraints: const BoxConstraints(
