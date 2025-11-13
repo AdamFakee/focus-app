@@ -43,6 +43,14 @@ class _InputIconNameFieldState extends State<InputIconNameField> {
   }
 
   @override
+  void didUpdateWidget(covariant InputIconNameField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.defaultValue != widget.defaultValue) {
+      controller.text = widget.defaultValue ?? '';
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:focus_app/common/widgets/appBars/app_bar.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
+import 'package:focus_app/utils/routers/app_router_names.dart';
+import 'package:go_router/go_router.dart';
 
 // Menu
 enum TaskMenuAction {
@@ -27,6 +29,7 @@ enum TaskMenuAction {
       case TaskMenuAction.manageProjects:
         break;
       case TaskMenuAction.manageTags:
+        context.push(AppRouterNames.tags);
         break;
     }
   }

@@ -8,4 +8,8 @@ class AppRouterNames {
   static const addNewTask = '$taskTab/addNewTask';
   static const addNewTag = '$taskTab/addNewTag';
   static const addNewProject = '$taskTab/addNewProject';
+  static const tags = '$taskTab/tags';
+  static String editTag(int tagId) {
+    return '$tags/edit/$tagId';
+  }
 }

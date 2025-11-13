@@ -14,7 +14,6 @@ class TagRepo {
   Future<bool> createTag (TagModel tag) async {
     return await HandleThrowException<bool>(() async {
       final res = await _tagServices.createTag(tag);
-      print(res);
       return res > 0 ? true : false;
     });
   }
@@ -27,6 +26,37 @@ class TagRepo {
       final tags = await _tagServices.getAll(page: page, limit: limit);
 
       return tags.map((a) => TagModel.fromJson(a)).toList();
+    });
+  }
+
+  Future<TagModel> getTagById (int tagId) async {
+    return await HandleThrowException<TagModel>(() async {
+      final res = await _tagServices.getTagById(tagId);
+      return TagModel.fromJson(res);
+    });
+  }
+
+  Future<void> updateTag(TagModel tag) async {
+    return await HandleThrowException<void>(() async {
+      if (tag.tagId == null) {
+        throw Exception('Cannot update tag without ID');
+      }
+
+      final res = await _tagServices.updateTag(tag);
+      
+      if(res == 0) {
+        throw Exception("Update tag faile");
+      }
+    });
+  }
+
+  Future<void> deleteTag(int tagId) async {
+    return await HandleThrowException<void>(() async {
+      final res = await _tagServices.deleteTag(tagId);
+      
+      if(res == 0) {
+        throw Exception("Delete tag faile");
+      }
     });
   }
 }
