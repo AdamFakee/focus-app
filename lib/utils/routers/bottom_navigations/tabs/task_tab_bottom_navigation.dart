@@ -21,26 +21,24 @@ class TaskTabBottomNavigation {
         path: '/task', 
         builder: (context, state) => const TaskScreen(),
         routes: [
+          //- Task
           GoRoute(
             parentNavigatorKey: AppRouters.rootKey,
             path: 'addNewTask',
             builder: (context, state) => const AddNewTaskScreen(),
           ),
-          GoRoute(
-            parentNavigatorKey: AppRouters.rootKey,
-            path: 'addNewTag',
-            builder: (context, state) => const AddNewTagScreen(),
-          ),
-          GoRoute(
-            parentNavigatorKey: AppRouters.rootKey,
-            path: 'addNewProject',
-            builder: (context, state) => const AddNewProjectScreen(),
-          ),
+
+          //- Tags
           GoRoute(
             parentNavigatorKey: AppRouters.rootKey,
             path: 'tags',
             builder: (context, state) => const TagScreen(),
             routes: [
+              GoRoute(
+                parentNavigatorKey: AppRouters.rootKey,
+                path: 'addNewTag',
+                builder: (context, state) => const AddNewTagScreen(),
+              ),
               GoRoute(
                 parentNavigatorKey: AppRouters.rootKey,
                 path: 'edit/:id',
@@ -53,6 +51,8 @@ class TaskTabBottomNavigation {
               ),
             ]
           ),
+
+          //- Projects
           GoRoute(
             parentNavigatorKey: AppRouters.rootKey,
             path: 'projects',
@@ -60,9 +60,14 @@ class TaskTabBottomNavigation {
             routes: [
               GoRoute(
                 parentNavigatorKey: AppRouters.rootKey,
+                path: 'addNewProject',
+                builder: (context, state) => const AddNewProjectScreen(),
+              ),
+              GoRoute(
+                parentNavigatorKey: AppRouters.rootKey,
                 path: 'edit/:id',
                 builder: (context, state) {
-                  // check tagId, nếu không tồn tại => tagId = -1
+                  // check projectId, nếu không tồn tại => tagId = -1
                   final projectIdString = state.pathParameters['id'];
                  final int projectId = int.tryParse(projectIdString ?? '') ?? -1;
                   return EditProjectScreen(projectId: projectId);

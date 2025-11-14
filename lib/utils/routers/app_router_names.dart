@@ -6,13 +6,18 @@ class AppRouterNames {
   // --------- task -----------
   static const taskTab = '/task';
   static const addNewTask = '$taskTab/addNewTask';
-  static const addNewTag = '$taskTab/addNewTag';
-  static const addNewProject = '$taskTab/addNewProject';
+
+
+  // --------- Tags -----------
   static const tags = '$taskTab/tags';
+  static const addNewTag = '$tags/addNewTag';
   static String editTag(int tagId) {
     return '$tags/edit/$tagId';
   }
+
+  // ----------- Project ----------
   static const projects = '$taskTab/projects';
+  static const addNewProject = '$projects/addNewProject';
   static String editProject(int projectId) {
     return '$projects/edit/$projectId';
   }
