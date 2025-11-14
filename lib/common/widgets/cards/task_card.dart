@@ -4,7 +4,6 @@ import 'package:focus_app/common/widgets/containers/icon_container.dart';
 import 'package:focus_app/common/widgets/containers/rounded_container.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/const/colors.dart';
-import 'package:focus_app/utils/extensions/context_extensions.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

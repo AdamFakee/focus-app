@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/cards/task_card.dart';
 import 'package:focus_app/common/widgets/containers/icon_container.dart';
+import 'package:focus_app/common/widgets/feedbacks/not_found_item.dart';
 import 'package:focus_app/features/task/blocs/completed_task/completed_task_bloc.dart';
 import 'package:focus_app/features/task/blocs/lazy_loading/lazy_loading_bloc.dart';
 import 'package:focus_app/features/task/models/task_model.dart';
@@ -23,6 +24,9 @@ class CompletedTasksTab extends StatelessWidget {
             bloc.add(LazyLoadingFetchNext());
           }, 
           builderDelegate: PagedChildBuilderDelegate(
+            noItemsFoundIndicatorBuilder: (context) {
+              return NotFoundItem();
+            },
             itemBuilder:(context, task, index) {
               return TaskCard(
                 isCompleted: true,

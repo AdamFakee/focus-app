@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/common/widgets/feedbacks/not_found_item.dart';
 import 'package:focus_app/features/task/blocs/delete_tag/delete_tag_bloc.dart';
 import 'package:focus_app/features/task/blocs/lazy_loading/lazy_loading_bloc.dart';
 import 'package:focus_app/features/task/models/tag_model.dart';
@@ -20,6 +21,9 @@ class ListTags extends StatelessWidget {
             bloc.add(LazyLoadingFetchNext());
           }, 
           builderDelegate: PagedChildBuilderDelegate(
+            noItemsFoundIndicatorBuilder: (context) {
+              return NotFoundItem();
+            },
             itemBuilder:(context, tag, index) {
               return TagItemCard(
                 tag: tag,
