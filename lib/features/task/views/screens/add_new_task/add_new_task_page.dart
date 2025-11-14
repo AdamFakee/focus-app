@@ -43,6 +43,7 @@ class _AddNewTaskPageState extends State<AddNewTaskPage> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: Sizes.lg,
                   children: [
                     //- icon picker

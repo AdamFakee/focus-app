@@ -38,13 +38,18 @@ class TagSelector extends StatelessWidget {
                   bg: isSelected ? AppColors.primary : Colors.transparent,
                   onPressed: () {
                     if(tag.tagId != null) {
-                      context.read<AddNewTaskBloc>().add(AddNewTaskProjectSelected(tag.tagId));
+                      context.read<AddNewTaskBloc>().add(AddNewTaskTagsUpdated(tag.tagId!));
                     }
                   },
                   border: Border.all(
                     color: isSelected ? AppColors.primary : AppColors.gray
                   ),
-                  child: Text(tag.tagName),
+                  child: Text(
+                    tag.tagName,
+                    style: Theme.of(context).textTheme.bodyMedium!.apply(
+                      color: isSelected ? AppColors.white : AppColors.black
+                    ),
+                  ),
                 );
               }).toList(),
             ),

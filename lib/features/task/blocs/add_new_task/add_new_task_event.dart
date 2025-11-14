@@ -41,11 +41,11 @@ final class AddNewTaskProjectSelected extends AddNewTaskEvent {
 }
 
 final class AddNewTaskTagsUpdated extends AddNewTaskEvent {
-  final List<int> tagIds;
-  AddNewTaskTagsUpdated(this.tagIds);
+  final int tagId;
+  AddNewTaskTagsUpdated(this.tagId);
 
   @override
-  List<Object?> get props => [tagIds];
+  List<Object?> get props => [tagId];
 }
 
 final class AddNewTaskPomodorosChanged extends AddNewTaskEvent {

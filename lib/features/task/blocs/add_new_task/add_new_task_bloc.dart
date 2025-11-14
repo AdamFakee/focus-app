@@ -74,7 +74,8 @@ class AddNewTaskBloc extends Bloc<AddNewTaskEvent, AddNewTaskState> {
   }
 
   void _onTagsUpdated(AddNewTaskTagsUpdated event, Emitter<AddNewTaskState> emit) {
-    emit(state.copyWith(tagIds: event.tagIds));
+    final List<int> tagIds = [event.tagId, ...state.tagIds];
+    emit(state.copyWith(tagIds: tagIds));
   }
   
   void _onPomodorosChanged(AddNewTaskPomodorosChanged event, Emitter<AddNewTaskState> emit) {
