@@ -45,7 +45,9 @@ class LazyLoadingBloc<T> extends Bloc<LazyLoadingEvent, LazyLoadingState<T>> {
         pages: [...?state.pages, result],
         keys: [...?state.keys, pageKey],
       ));
-    } catch (e) {
+    } catch (e, stack) {
+      print(e);
+      print(stack);
       emit(state.copyWith(isLoading: false, error: e));
     }
   }

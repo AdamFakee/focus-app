@@ -17,12 +17,19 @@ class TaskServices {
 
   Future<List<Map<String, Object?>>> getAll ({
     int page = 1,
-    int limit = 99999
+    int limit = 99999,
+    TaskStatus? status,
   }) async {
     final offset = (page - 1) * limit;
 
+    final where = status != null ? '${TaskTable.columnStatus} = ?' : null;
+    final whereArgs = status != null ? [status.name] : null;
+
+
     return await _db.query(
       TaskTable.tableName,
+      where: where,
+      whereArgs: whereArgs,
       limit: limit,
       offset: offset
     );

@@ -20,12 +20,13 @@ class TaskRepo {
 
   Future<List<TaskModel>> getAll({
     int page = 1,
-    int limit = 99999
+    int limit = 99999,
+    TaskStatus? status
   }) async {
     return await HandleThrowException(() async {
-      final activities = await _taskServices.getAll(page: page, limit: limit);
+      final task = await _taskServices.getAll(page: page, limit: limit, status: status);
 
-      return activities.map((a) => TaskModel.fromJson(a)).toList();
+      return task.map((a) => TaskModel.fromJson(a)).toList();
     });
   }
 }

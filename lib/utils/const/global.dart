@@ -5,4 +5,9 @@ class Globals {
 
   /// limit item 
   static const limitInPagination = 20;
+
+  /// time for one poromodor
+  /// 
+  /// unit = `munite`
+  static const timePerPoromodor = 25;
 }

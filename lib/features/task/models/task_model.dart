@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:focus_app/utils/const/global.dart';
 import 'package:focus_app/utils/storages/sql/tables/task/task_table.dart';
 
 enum TaskStatus {active, completed, deleted}
@@ -19,6 +20,7 @@ class TaskModel {
   final List<int> tagIds; 
 
   final Color color;
+  /// chỉ dùng icon của font_awesome_flutter
   final IconData icon;
   final DateTime createdAt;
   final Duration durationSpent; // Tổng thời gian đã làm, dùng Duration cho tiện xử lý
@@ -37,6 +39,13 @@ class TaskModel {
     required this.durationSpent,
   });
 
+  String get progressPomodoros => '$completedPomodoros/$totalPomodoros'; 
+  String get timeProgress {
+    final spentMunites = durationSpent.inMinutes;
+    final targetMunites = totalPomodoros * Globals.timePerPoromodor;
+    return '$spentMunites/$targetMunites munites';
+  }
+
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     final tagIdsRaw = json[TaskTable.columnTagIds];
     final List<int> tagIds = tagIdsRaw != null && tagIdsRaw is String
@@ -53,10 +62,16 @@ class TaskModel {
       taskName: json[TaskTable.columnTaskName],
       totalPomodoros: json[TaskTable.columnTotalPomodoros],
       completedPomodoros: json[TaskTable.columnCompletedPomodoros],
-      projectId: json[TaskTable.columnProjectId],
+      projectId: json[TaskTable.columnProjectId] as int,
       tagIds: tagIds, 
       color: Color(json[TaskTable.columnColor]),
-      icon: IconData(json[TaskTable.columnIconCodePoint]),
+
+      // truyền vào để xác định icon cụ thể
+      icon: IconData(
+        json[TaskTable.columnIconCodePoint],
+        fontFamily: 'FontAwesomeBrands',
+        fontPackage: 'font_awesome_flutter'
+      ),
       createdAt: DateTime.parse(json[TaskTable.columnCreatedAt]),
       // Tạo lại Duration từ số giây đã lưu
       durationSpent: Duration(seconds: json[TaskTable.columnDurationSpentSeconds]),

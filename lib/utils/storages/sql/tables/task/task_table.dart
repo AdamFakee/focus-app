@@ -30,7 +30,7 @@ class TaskTable {
       $columnStatus TEXT NOT NULL,
       $columnTagIds TEXT,
       $columnDurationSpentSeconds INTEGER NOT NULL,
-      $columnProjectId TEXT,
+      $columnProjectId INTEGER,
       FOREIGN KEY($columnProjectId) 
         REFERENCES ${ProjectTable.tableName}(${ProjectTable.columnProjectId}) 
         ON DELETE SET NULL 
