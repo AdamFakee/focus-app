@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_app/features/home/home.dart';
+import 'package:focus_app/features/home/view/screens/home/home_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeTabBottomNavigation {
@@ -10,7 +10,7 @@ class HomeTabBottomNavigation {
     routes: [
       GoRoute(
         path: '/home', 
-        builder: (context, state) => Home(),
+        builder: (context, state) => HomeScreen(),
         routes: []
       )
     ],
