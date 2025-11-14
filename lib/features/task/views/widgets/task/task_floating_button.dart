@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/features/task/blocs/active_task/active_task_bloc.dart';
+import 'package:focus_app/features/task/blocs/lazy_loading/lazy_loading_bloc.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/routers/app_router_names.dart';
@@ -25,6 +28,12 @@ class _TaskFloatingButtonState extends State<TaskFloatingButton> with SingleTick
     
     controller = AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     animation = Tween<double>(begin: 0, end: 0.125).animate(controller);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   void _toggleMenu() {
@@ -96,8 +105,12 @@ class _TaskFloatingButtonState extends State<TaskFloatingButton> with SingleTick
             context,
             icon: Icons.task_alt_outlined,
             title: 'Task',
-            onTap: () {
-              context.push(AppRouterNames.addNewTask);
+            onTap: () async {
+              // Refresh Active Tab 
+              final isRefresh = await context.push<bool>(AppRouterNames.addNewTask);
+              if(isRefresh == true && context.mounted) {
+                context.read<ActiveTasksBloc>().add(LazyLoadingRefresh());
+              }
             },
           ),
           _buildMenuItem(

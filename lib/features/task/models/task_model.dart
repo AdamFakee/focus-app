@@ -57,12 +57,15 @@ class TaskModel {
       (e) => e.name == statusRaw,
       orElse: () => TaskStatus.active,
     );
+
+    final int? projectId = json[TaskTable.columnProjectId] == null ? null : int.tryParse(json[TaskTable.columnProjectId].toString());
+
     return TaskModel(
       taskId: json[TaskTable.columnTaskId],
       taskName: json[TaskTable.columnTaskName],
       totalPomodoros: json[TaskTable.columnTotalPomodoros],
       completedPomodoros: json[TaskTable.columnCompletedPomodoros],
-      projectId: json[TaskTable.columnProjectId] as int,
+      projectId: projectId,
       tagIds: tagIds, 
       color: Color(json[TaskTable.columnColor]),
 

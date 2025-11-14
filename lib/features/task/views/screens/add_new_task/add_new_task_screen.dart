@@ -10,6 +10,7 @@ import 'package:focus_app/utils/data/icons/font_awesome_icon_model.dart';
 import 'package:focus_app/utils/data/icons/font_awesome_icons.dart';
 import 'package:focus_app/utils/popups/fullscreen_loader.dart';
 import 'package:focus_app/utils/popups/snackbar.dart';
+import 'package:go_router/go_router.dart';
 
 class AddNewTaskScreen extends StatelessWidget {
   const AddNewTaskScreen({super.key});
@@ -57,6 +58,11 @@ class AddNewTaskScreen extends StatelessWidget {
             
             // XỬ LÝ KHI SUBMIT THÀNH CÔNG 
             if (state.status == SubmissionStatus.success) {
+
+              // trở về màn hình trước đó 
+              // thông báo cần refresh 
+              context.pop(true);
+              
               Snackbar.show(context, type: SnackbarEnum.success, message: 'Task added successfully!');
               return;
             }
