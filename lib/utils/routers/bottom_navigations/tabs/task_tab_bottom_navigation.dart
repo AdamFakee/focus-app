@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:focus_app/features/task/views/screens/add_new_project/add_new_project_screen.dart';
 import 'package:focus_app/features/task/views/screens/add_new_tag/add_new_tag_screen.dart';
 import 'package:focus_app/features/task/views/screens/add_new_task/add_new_task_screen.dart';
+import 'package:focus_app/features/task/views/screens/edit_project/edit_project_screen.dart';
 import 'package:focus_app/features/task/views/screens/edit_tag/edit_tag_screen.dart';
+import 'package:focus_app/features/task/views/screens/projects/projects_screen.dart';
 import 'package:focus_app/features/task/views/screens/tags/tags_screen.dart';
 import 'package:focus_app/features/task/views/screens/task/task_screen.dart';
 import 'package:focus_app/utils/routers/app_routers.dart';
@@ -47,6 +49,23 @@ class TaskTabBottomNavigation {
                   final tagIdString = state.pathParameters['id'];
                  final int tagId = int.tryParse(tagIdString ?? '') ?? -1;
                   return EditTagScreen(tagId: tagId);
+                }
+              ),
+            ]
+          ),
+          GoRoute(
+            parentNavigatorKey: AppRouters.rootKey,
+            path: 'projects',
+            builder: (context, state) => const ProjectScreen(),
+            routes: [
+              GoRoute(
+                parentNavigatorKey: AppRouters.rootKey,
+                path: 'edit/:id',
+                builder: (context, state) {
+                  // check tagId, nếu không tồn tại => tagId = -1
+                  final projectIdString = state.pathParameters['id'];
+                 final int projectId = int.tryParse(projectIdString ?? '') ?? -1;
+                  return EditProjectScreen(projectId: projectId);
                 }
               ),
             ]

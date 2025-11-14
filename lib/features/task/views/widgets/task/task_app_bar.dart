@@ -27,6 +27,7 @@ enum TaskMenuAction {
   void execute(BuildContext context) {
     switch (this) {
       case TaskMenuAction.manageProjects:
+        context.push(AppRouterNames.projects);
         break;
       case TaskMenuAction.manageTags:
         context.push(AppRouterNames.tags);

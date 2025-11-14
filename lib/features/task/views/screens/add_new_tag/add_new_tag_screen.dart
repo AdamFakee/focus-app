@@ -5,6 +5,7 @@ import 'package:focus_app/features/task/data/repos/tag_repo.dart';
 import 'package:focus_app/features/task/views/screens/add_new_tag/add_new_tag_page.dart';
 import 'package:focus_app/utils/popups/fullscreen_loader.dart';
 import 'package:focus_app/utils/popups/snackbar.dart';
+import 'package:go_router/go_router.dart';
 
 class AddNewTagScreen extends StatelessWidget {
   const AddNewTagScreen({super.key});
@@ -36,7 +37,12 @@ class AddNewTagScreen extends StatelessWidget {
             
             // XỬ LÝ KHI SUBMIT THÀNH CÔNG 
             if (state.status == SubmissionStatus.success) {
-              Snackbar.show(context, type: SnackbarEnum.success, message: 'Task added successfully!');
+              // trở về màn hình trước đó 
+              // thông báo cần refresh 
+              context.pop(true);
+
+              // hiển thị thông báo ở màn hình trước đó luôn
+              Snackbar.show(context, type: SnackbarEnum.success, message: 'Tag added successfully!');
               return;
             }
           },

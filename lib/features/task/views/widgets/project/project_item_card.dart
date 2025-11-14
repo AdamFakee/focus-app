@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_app/features/task/models/tag_model.dart';
+import 'package:focus_app/features/task/models/project_model.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/icons.dart';
 import 'package:focus_app/utils/const/sizes.dart';
@@ -8,7 +8,7 @@ import 'package:focus_app/utils/routers/app_router_names.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-enum _TagItemAction {
+enum _ProjectItemAction {
   edit(
     title: 'Edit',
     icon: Icons.edit,
@@ -24,21 +24,21 @@ enum _TagItemAction {
   final IconData icon;
   final Color color;
 
-  const _TagItemAction({
+  const _ProjectItemAction({
     required this.title,
     required this.icon,
     required this.color,
   });
 }
 
-class TagItemCard extends StatelessWidget {
-  final TagModel tag;
+class ProjectItemCard extends StatelessWidget {
+  final ProjectModel project;
   final VoidCallback onRefesh;
   final VoidCallback onDelete;
 
-  const TagItemCard({
+  const ProjectItemCard({
     super.key, 
-    required this.tag,
+    required this.project,
     required this.onRefesh,
     required this.onDelete
   });
@@ -50,28 +50,28 @@ class TagItemCard extends StatelessWidget {
       title: Row(
         spacing: Sizes.md,
         children: [
-          FaIcon(AppIcons.label, color: tag.color, size: 18),
-          Text(tag.tagName, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
+          FaIcon(AppIcons.project, color: project.color, size: 18),
+          Text(project.name, style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.w600)),
         ],
       ),
-      trailing: PopupMenuButton<_TagItemAction>( 
+      trailing: PopupMenuButton<_ProjectItemAction>( 
         color: AppColors.white,
         icon: const Icon(Icons.more_vert, color: AppColors.black,),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Sizes.sm),
         ),
-        onSelected: (_TagItemAction action) async {
+        onSelected: (_ProjectItemAction action) async {
           switch (action) {
-            case _TagItemAction.edit:
-              if(tag.tagId != null) {
+            case _ProjectItemAction.edit:
+              if(project.projectId != null) {
                 // kiểm trả xem sau khi từ màn hình edit về thì có cần phải refresh lại data hay không? (Có cập nhật thì refresh)
-                final isRefesh = await context.push<bool>(AppRouterNames.editTag(tag.tagId!));
+                final isRefesh = await context.push<bool>(AppRouterNames.editProject(project.projectId!));
                 if(isRefesh != null && isRefesh) {
                   onRefesh();
                 }
               }
               break;
-            case _TagItemAction.delete:
+            case _ProjectItemAction.delete:
               final confirmed = await ConfirmPopup.show(context: context,);
               if(confirmed) {
                 onDelete();
@@ -81,8 +81,8 @@ class TagItemCard extends StatelessWidget {
           }
         },
         itemBuilder: (context) {
-          return _TagItemAction.values.map((action) {
-            return PopupMenuItem<_TagItemAction>(
+          return _ProjectItemAction.values.map((action) {
+            return PopupMenuItem<_ProjectItemAction>(
               padding: const EdgeInsets.symmetric(horizontal: Sizes.sm, vertical: Sizes.md / 2),
               value: action,
               child: Row(

@@ -12,4 +12,8 @@ class AppRouterNames {
   static String editTag(int tagId) {
     return '$tags/edit/$tagId';
   }
+  static const projects = '$taskTab/projects';
+  static String editProject(int projectId) {
+    return '$projects/edit/$projectId';
+  }
 }
