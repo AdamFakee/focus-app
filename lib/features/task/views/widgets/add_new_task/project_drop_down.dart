@@ -10,7 +10,9 @@ import 'package:go_router/go_router.dart';
 
 
 class ProjectDropdown extends StatelessWidget {
-  const ProjectDropdown({super.key});
+  final VoidCallback onRefresh;
+
+  const ProjectDropdown({super.key, required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +63,12 @@ class ProjectDropdown extends StatelessWidget {
         //- Navigate to create-new-project-screen
         if(projects.isEmpty) 
           AddButtonCommon(
-            onPressed: () {
-              context.push(AppRouterNames.addNewProject);
+            onPressed: () async {
+              // tạo mới project => refresh
+              final refresh = await context.push<bool>(AppRouterNames.addNewProject);
+              if(refresh == true) {
+                onRefresh();
+              }
             }, 
             title: "Create New Project"
           )

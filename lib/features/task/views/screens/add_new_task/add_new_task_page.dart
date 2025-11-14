@@ -25,6 +25,10 @@ class _AddNewTaskPageState extends State<AddNewTaskPage> {
     super.dispose();
   }
 
+  void onRefreshDataFetched () {
+    context.read<AddNewTaskBloc>().add(AddNewTaskDataFetched());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +67,14 @@ class _AddNewTaskPageState extends State<AddNewTaskPage> {
                     PomodoroSelector(),
 
                     //- project
-                    ProjectDropdown(),
+                    ProjectDropdown(
+                      onRefresh: onRefreshDataFetched,
+                    ),
 
                     //- tag
-                    TagSelector(),
+                    TagSelector(
+                      onRefresh: onRefreshDataFetched,
+                    ),
 
                     //- color
                     BlocSelector<AddNewTaskBloc, AddNewTaskState, Color?>(

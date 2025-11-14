@@ -11,8 +11,9 @@ import 'package:go_router/go_router.dart';
 
 
 class TagSelector extends StatelessWidget {
+  final VoidCallback onRefresh;
 
-  const TagSelector({super.key});
+  const TagSelector({super.key, required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +59,12 @@ class TagSelector extends StatelessWidget {
         //- Navigate to create-new-tag-screen
         if(tags.isEmpty)
           AddButtonCommon(
-            onPressed: () {
-              context.push(AppRouterNames.addNewTag);
+            onPressed: () async {
+              // tạo mới project => refresh
+              final refresh = await context.push<bool>(AppRouterNames.addNewTag);
+              if(refresh == true) {
+                onRefresh();
+              }
             },
             title: "Create New Tag",
           )
