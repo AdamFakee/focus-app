@@ -4,6 +4,7 @@ import 'package:focus_app/common/widgets/cards/task_card.dart';
 import 'package:focus_app/common/widgets/containers/icon_container.dart';
 import 'package:focus_app/features/task/blocs/active_task/active_task_bloc.dart';
 import 'package:focus_app/features/task/blocs/lazy_loading/lazy_loading_bloc.dart';
+import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart';
 import 'package:focus_app/features/task/models/task_model.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
@@ -35,6 +36,9 @@ class ActiveTasksTab extends StatelessWidget {
                   icon: Icons.play_arrow,
                   backgroundColor: AppColors.lightGray,
                 ),
+                onDelete: task.taskId != null ? () {
+                  context.read<TaskActionBloc>().add(TaskActionOnDelete(taskId: task.taskId!));
+                } : null,
               );
             },
           ), 

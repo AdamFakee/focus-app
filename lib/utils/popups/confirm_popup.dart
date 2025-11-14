@@ -33,7 +33,7 @@ class ConfirmPopup {
           ),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
           content: content != null ? Text(content, style: Theme.of(context).textTheme.labelMedium,) : null,

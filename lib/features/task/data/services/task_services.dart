@@ -34,4 +34,12 @@ class TaskServices {
       offset: offset
     );
   }
+
+  Future<int> deleteTask(int taskId) async {
+    return await _db.delete(
+      TaskTable.tableName,
+      where: '${TaskTable.columnTaskId} = ?',
+      whereArgs: [taskId],
+    );
+  }
 }

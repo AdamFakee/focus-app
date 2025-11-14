@@ -29,4 +29,14 @@ class TaskRepo {
       return task.map((a) => TaskModel.fromJson(a)).toList();
     });
   }
+
+  Future<void> deleteTask(int taskId) async {
+    return await HandleThrowException<void>(() async {
+      final res = await _taskServices.deleteTask(taskId);
+      
+      if(res == 0) {
+        throw Exception("Delete task faile");
+      }
+    });
+  }
 }
