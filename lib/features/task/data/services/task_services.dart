@@ -1,4 +1,5 @@
 import 'package:focus_app/features/task/models/task_model.dart';
+import 'package:focus_app/utils/helpers/task_flag_helper.dart';
 import 'package:focus_app/utils/storages/sql/database.dart';
 import 'package:focus_app/utils/storages/sql/tables/task/task_table.dart';
 
@@ -11,8 +12,17 @@ class TaskServices {
 
   final _db = AppDatabase().db;
 
+  //- Dùng sau khi CRUB task
+  Future<void> _markAfterCRUD() async {
+    await TaskFlagHelper.markTaskChanged();
+  }
+
   Future<int> createTask(TaskModel task) async {
-    return await _db.insert(TaskTable.tableName, task.toJson());
+    final result = await _db.insert(TaskTable.tableName, task.toJson());
+    
+    await _markAfterCRUD();
+
+    return result;
   }
 
   Future<List<Map<String, Object?>>> getAll ({
@@ -36,10 +46,14 @@ class TaskServices {
   }
 
   Future<int> deleteTask(int taskId) async {
-    return await _db.delete(
+    final result = await _db.delete(
       TaskTable.tableName,
       where: '${TaskTable.columnTaskId} = ?',
       whereArgs: [taskId],
     );
+
+    await _markAfterCRUD();
+
+    return result;
   }
 }

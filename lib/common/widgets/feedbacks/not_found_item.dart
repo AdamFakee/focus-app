@@ -8,7 +8,11 @@ class NotFoundItem extends StatelessWidget {
 
   final String? subtitle;
 
-  final bool showGoBackButton;
+  final String buttonTitle;
+
+  final VoidCallback? onPressed;
+
+  final bool showButton;
 
   final IconData icon;
 
@@ -17,7 +21,9 @@ class NotFoundItem extends StatelessWidget {
     this.title = "Not Found",
     this.subtitle,
     this.icon = Icons.description_outlined,
-    this.showGoBackButton = false
+    this.showButton = false,
+    this.buttonTitle = "Go Back", 
+    this.onPressed
   });
 
   @override
@@ -58,10 +64,10 @@ class NotFoundItem extends StatelessWidget {
               ),
             
             // go-back button
-            if(showGoBackButton)
+            if(showButton)
               ElevatedButton(
-                onPressed: () => context.pop(), 
-                child: Text("Go Back")
+                onPressed: () => onPressed != null ? onPressed!() : context.pop(),
+                child: Text(buttonTitle),
               )
           ],
         ),
