@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
 import 'package:focus_app/features/home/blocs/recently_tasks/recently_tasks_bloc.dart' hide SubmissionStatus;
 import 'package:focus_app/features/home/view/screens/home/home_page.dart';
 import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart';
@@ -21,6 +22,9 @@ class HomeScreen extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => TaskActionBloc(taskRepo: context.read<TaskRepo>()),
+          ),
+          BlocProvider(
+            create: (context) => PromodorTaskBloc(),
           ),
         ],
         child: MultiBlocListener(
