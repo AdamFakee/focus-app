@@ -46,6 +46,16 @@ class TaskModel {
     return '$spentMunites/$targetMunites munites';
   }
 
+  /// Thời gian còn lại để hoàn thành pomodoro hiện tại
+  /// 
+  /// Thời gian hoàn thành 1 `pomodor = 10s`, tổng thời gian đã hoàn thành = `35` => `đã hoàn thành 5 giây tại pomodoro hiện tại`
+  int get secondsCompleteInCurrentSection {
+    // Chuyển độ dài 1 Pomodoro từ phút sang giây
+    final pomodoroDurationInSeconds = Globals.timePerPoromodor * 60;
+
+    return durationSpent.inSeconds % pomodoroDurationInSeconds;
+  }
+
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     final tagIdsRaw = json[TaskTable.columnTagIds];
     final List<int> tagIds = tagIdsRaw != null && tagIdsRaw is String

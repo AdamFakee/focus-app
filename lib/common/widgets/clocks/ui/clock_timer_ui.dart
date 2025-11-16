@@ -12,10 +12,10 @@ class ClockTimerUi extends StatelessWidget {
     this.statusText = "Short break",
     this.totalRounds = 8,
     this.currentRound = 1,
-    this.isPaused = true,
-    this.onResetPressed,
-    this.onPlayPausePressed,
-    this.onSkipPressed,
+    required this.isPaused,
+    required this.onResetPressed,
+    required this.onPlayPausePressed,
+    required this.onSkipPressed,
   });
 
   // Dữ liệu để hiển thị trên UI
@@ -26,9 +26,9 @@ class ClockTimerUi extends StatelessWidget {
   final bool isPaused;
 
   // Các hàm callback cho các nút bấm
-  final VoidCallback? onResetPressed;
-  final VoidCallback? onPlayPausePressed;
-  final VoidCallback? onSkipPressed;
+  final VoidCallback onResetPressed;
+  final VoidCallback onPlayPausePressed;
+  final VoidCallback onSkipPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class ClockTimerUi extends StatelessWidget {
                 title: "Reset Session",
                 desc: "Reset the current focus session?",
                 onConfirmed: () {
-                  
+                  onResetPressed();
                 },
                 confirmTitle: "Yes, Reset",
               ),
@@ -174,7 +174,7 @@ class ClockTimerUi extends StatelessWidget {
                 title: "Skip Session",
                 desc: "Skip the current focus session?",
                 onConfirmed: () {
-                  
+                  onSkipPressed();
                 },
                 confirmTitle: "Yes, Skip",
               ),

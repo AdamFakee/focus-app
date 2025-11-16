@@ -12,5 +12,5 @@ class Globals {
   /// time for one poromodor
   /// 
   /// unit = `munite`
-  static const timePerPoromodor = 25;
+  static const timePerPoromodor = 1;
 }
