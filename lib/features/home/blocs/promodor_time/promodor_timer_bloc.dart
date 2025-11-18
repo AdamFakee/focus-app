@@ -19,11 +19,14 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
 
   TaskModel? currentTask;
 
+  final PromodorTaskBloc _promodorTaskBloc;
+
   PromodorTimerBloc({
     required Ticker ticker,
     required PromodorTaskBloc promodorTaskBloc
   }) : 
     _ticker = ticker,
+    _promodorTaskBloc = promodorTaskBloc,
 
     super(PromodorTimerState()) {
       on<PromodorTimerEventOnInitial>(_onInitial);
@@ -33,18 +36,40 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       on<PromodorTimerEventOnStop>(_onStop);
       on<PromodorTimerEventOnReset>(_onReset);
       on<_PromodoroTimerEventOnTicked>(_onPromodorTimerTicked);
+      on<PromodorTimerEventOnChangeTask>(_onChangeTask);
+      on<PromodorTimerEventOnUpdateTask>(_onUpdateTask);
+      on<PromodorTimerEventOnRefresh>(_onRefresh);
 
       /// subscription to [PromodorTaskBloc]
       /// 
       /// task cập nhật => chạy hàm
       promodorSub = promodorTaskBloc.stream.where((taskState) => taskState.selectedTask != currentTask).listen((taskState) {
-
         if (taskState.selectedTask != null) {
+          // // NẾU TIMER KHÔNG CHẠY, KHÔNG ĐƯỢC PHÉP TỰ Ý KHỞI ĐỘNG LẠI TIMER
+          // // KHI TASK CHỈ ĐƠN THUẦN CẬP NHẬT DỮ LIỆU 
+          // if (state.status.isInitial == false) {
+          //   print('-update-');
+          //   // Chỉ cập nhật lại currentTask để đồng bộ, không làm gì thêm.
+          //   add(PromodorTimerEventOnInitial(task: taskState.selectedTask!));
+          //   currentTask = taskState.selectedTask;
+          //   return;
+          // }
+
+          //- true => selectask ở [taskState] đã được cập nhật thông số mới
+          //- false => selectask đã được thay đổi sang task khác (check taskId)
+          if(currentTask?.taskId == taskState.selectedTask?.taskId) {
+            // add(PromodorTimerEventOnUpdateTask(taskState.selectedTask!));
+            
+            // cập nhật lại currentTask
+            currentTask = taskState.selectedTask;
+            return;
+          }
           //- Chưa thực hiện đếm giờ lần nào
           if(currentTask == null) {
             add(PromodorTimerEventOnInitial(task: taskState.selectedTask!));
           } else {
-            add(PromodorTimerEventOnStop());
+            //- 2 tasks khác nhau => task đã được cập nhật hoàn toàn ( thay taskId )
+            add(PromodorTimerEventOnChangeTask(taskState.selectedTask!));
           }
         }
 
@@ -55,10 +80,14 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
     }
 
   void _onInitial(PromodorTimerEventOnInitial event, Emitter emit) {
+    final task = event.task;
+    final totalSecondsPerPomodoro = Globals.timePerPoromodor * 60;
+    final double completeProgress = (task.secondsCompleteInCurrentSection / totalSecondsPerPomodoro).clamp(0, 1);
     emit(state.copyWith(
-      totalPomodoros: event.task.totalPomodoros,
-      secondsCompleteInCurrentSection: event.task.secondsCompleteInCurrentSection,
-      completedPomodoros: event.task.completedPomodoros
+      totalPomodoros: task.totalPomodoros,
+      secondsCompleteInCurrentSection: task.secondsCompleteInCurrentSection,
+      completedPomodoros: task.completedPomodoros,
+      completeProgress: completeProgress
     ));
   }
 
@@ -74,6 +103,17 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       add(PromodorTimerEventOnResume());
       return;
     }
+
+    //- kiểm tra task được chọn tồn tại hay không
+    if(currentTask == null) {
+      print('------------- HIỂN THỊ THÔNG BÁO ------------');
+      return;
+    }
+    print('-------------');
+    print('currnet::: ${currentTask.toString()}');
+
+    //- Cập nhật thông số
+    add(PromodorTimerEventOnInitial(task: currentTask!));
 
     emit(state.copyWith(status: PromodorTimerStatus.running));
     
@@ -106,7 +146,16 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
   }
 
   void _onStop(PromodorTimerEventOnStop event, Emitter emit) {
-    print('stop');
+    //- B1: huỷ stream cũ
+    _tickerSubscription?.cancel();
+
+    //- B2: quay về trạng thái khởi tạo
+    emit(state.copyWith(
+      status: PromodorTimerStatus.initial,
+    ));
+
+    //- B3: phát sự kiện để lưu thông tin vào database
+    _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: state.secondsCompleteInCurrentSection));
   }
 
   void _onReset(PromodorTimerEventOnReset event, Emitter emit) {
@@ -116,16 +165,9 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
     // reset 
     emit(state.copyWith(
       secondsCompleteInCurrentSection: 0,
-      completeProgress: 0
+      completeProgress: 0,
+      status: PromodorTimerStatus.initial
     ));
-
-    // đăng ký stream mới
-    _tickerSubscription = _ticker
-      .tick(
-        limit: Globals.timePerPoromodor * 60 - state.secondsCompleteInCurrentSection, 
-        startAt: state.secondsCompleteInCurrentSection,
-      )
-      .listen((seconds) => add(_PromodoroTimerEventOnTicked(seconds: seconds))); 
   }
 
   void _onPromodorTimerTicked(_PromodoroTimerEventOnTicked event, Emitter<PromodorTimerState> emit) {
@@ -134,6 +176,35 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       completeProgress: state.caculateCompletedProgress(event.seconds),
     ));
   }
+
+  void _onChangeTask(PromodorTimerEventOnChangeTask event, Emitter emit) {
+    //- B1: stop timer
+    add(PromodorTimerEventOnStop());
+
+    //- B2: khởi tạo lại task
+    add(PromodorTimerEventOnInitial(task: event.newTask));
+  }
+
+  void _onUpdateTask(PromodorTimerEventOnUpdateTask event, Emitter emit) {
+    //- B1: huỷ stream
+    _tickerSubscription?.cancel();
+
+    //- B2: khởi tạo lại giá trị 
+    add(PromodorTimerEventOnInitial(task: event.updatedTask));
+
+    //- B3: tạo stream mới
+    _tickerSubscription = _ticker
+      .tick(
+        limit: Globals.timePerPoromodor * 60 - state.secondsCompleteInCurrentSection, 
+        startAt: state.secondsCompleteInCurrentSection,
+      )
+      .listen((seconds) => add(_PromodoroTimerEventOnTicked(seconds: seconds))); 
+  }
+
+  void _onRefresh(PromodorTimerEventOnRefresh event, Emitter emit) {
+    emit(PromodorTimerState());
+  }
+
 
   @override
   Future<void> close() {

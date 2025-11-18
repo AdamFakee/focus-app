@@ -28,3 +28,13 @@ final class PromodorTaskEventOnAskChangeTask extends PromodorTaskEvent {
 final class PromodorTaskEventOnConfirmChangeTask extends PromodorTaskEvent {}
 
 final class PromodorTaskEventOnCancleChangeTask extends PromodorTaskEvent {}
+
+/// khi `PromodorTimerBloc` có sự kiện nhất định như stop, end current section... => gửi thông số qua để cập nhật lại
+class PromodorTaskEventOnUpdate extends PromodorTaskEvent {
+  final int secondsCompleteInCurrentSection;
+  const PromodorTaskEventOnUpdate({
+    required this.secondsCompleteInCurrentSection
+  });
+}
+
+class PromodorTaskEventOnRefresh extends PromodorTaskEvent {}

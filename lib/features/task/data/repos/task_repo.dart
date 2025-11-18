@@ -39,4 +39,17 @@ class TaskRepo {
       }
     });
   }
+
+  Future<void> updateTask(TaskModel task) async {
+    return await HandleThrowException<void>(() async {
+      if (task.taskId == null) {
+        throw Exception('Cannot update task without ID');
+      }
+
+      final res = await _taskServices.updateTask(task);
+      if(res == 0) {
+        throw Exception("Update task faile");
+      }
+    });
+  }
 }

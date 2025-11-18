@@ -7,16 +7,18 @@ import 'package:focus_app/utils/const/sizes.dart';
 class ClockOptionBar extends StatelessWidget {
   const ClockOptionBar({
     super.key,
-    this.onStrictModePressed,
-    this.onTimerModePressed,
-    this.onFullScreenPressed,
-    this.onWhiteNoisePressed,
+    required this.onStrictModePressed,
+    required this.onStopPressed,
+    required this.onFullScreenPressed,
+    required this.onWhiteNoisePressed,
   });
 
-  final VoidCallback? onStrictModePressed;
-  final VoidCallback? onTimerModePressed;
-  final VoidCallback? onFullScreenPressed;
-  final VoidCallback? onWhiteNoisePressed;
+  final VoidCallback onStrictModePressed;
+
+  /// Dừng pomodor section
+  final VoidCallback onStopPressed;
+  final VoidCallback onFullScreenPressed;
+  final VoidCallback onWhiteNoisePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,8 @@ class ClockOptionBar extends StatelessWidget {
           _buildOption(
             context,
             icon: Icons.hourglass_empty_outlined,
-            label: 'Timer Mode',
-            onTap: onTimerModePressed,
+            label: 'Stop Timer',
+            onTap: onStopPressed,
           ),
           _buildOption(
             context,

@@ -63,7 +63,7 @@ class Clock extends StatelessWidget {
               minChildSize: 0.4,
             );
           },
-          onTimerModePressed: () {
+          onStopPressed: () {
             ModelBottomSheetBarrier().show(
               context: context,
               child: const ClockTimerDialog(),
@@ -81,6 +81,7 @@ class Clock extends StatelessWidget {
               minChildSize: 0.5,
             );
           },
+          onFullScreenPressed: () {},
         ),
       ],
     );

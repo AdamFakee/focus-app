@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
 import 'package:focus_app/utils/const/global.dart';
 import 'package:focus_app/utils/storages/sql/tables/task/task_table.dart';
 
@@ -111,5 +112,33 @@ class TaskModel {
   @override
   String toString() {
     return 'TaskModel(taskId: $taskId, taskName: $taskName, totalPomodoros: $totalPomodoros, completedPomodoros: $completedPomodoros, projectId: $projectId, tagIds: $tagIds, color: $color, icon: $icon, createdAt: $createdAt, durationSpent: $durationSpent)';
+  }
+
+  TaskModel copyWith({
+    int? taskId,
+    String? taskName,
+    int? totalPomodoros,
+    int? completedPomodoros,
+    TaskStatus? status,
+    int? projectId,
+    List<int>? tagIds,
+    Color? color,
+    IconData? icon,
+    DateTime? createdAt,
+    Duration? durationSpent,
+  }) {
+    return TaskModel(
+      taskId: taskId ?? this.taskId,
+      taskName: taskName ?? this.taskName,
+      totalPomodoros: totalPomodoros ?? this.totalPomodoros,
+      completedPomodoros: completedPomodoros ?? this.completedPomodoros,
+      status: status ?? this.status,
+      projectId: projectId ?? this.projectId,
+      tagIds: tagIds ?? this.tagIds,
+      color: color ?? this.color,
+      icon: icon ?? this.icon,
+      createdAt: createdAt ?? this.createdAt,
+      durationSpent: durationSpent ?? this.durationSpent,
+    );
   }
 }

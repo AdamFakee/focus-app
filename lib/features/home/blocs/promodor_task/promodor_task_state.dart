@@ -7,7 +7,10 @@ enum PromodorTaskStatus {
   askConfirmChangeTask,
 
   /// xác nhận chọn task mới khi task hiện tại đang chạy
-  confirmChangeTask
+  confirmChangeTask,
+
+  /// có lỗi xảy ra
+  failue
 }
 
 final class PromodorTaskState extends Equatable {
@@ -46,5 +49,5 @@ final class PromodorTaskState extends Equatable {
 
   
   @override
-  List<Object> get props => [status];
+  List<Object?> get props => [status, selectedTask, penddingTask];
 }

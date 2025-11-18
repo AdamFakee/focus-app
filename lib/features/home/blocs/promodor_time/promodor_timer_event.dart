@@ -57,3 +57,24 @@ final class _PromodoroTimerEventOnTicked extends PromodorTimerEvent {
   @override
   List<Object> get props => [seconds];
 }
+
+/// thay đổi task làm việc
+final class PromodorTimerEventOnChangeTask extends PromodorTimerEvent {
+  final TaskModel newTask;
+  const PromodorTimerEventOnChangeTask(this.newTask);
+
+  @override
+  List<Object> get props => [newTask];
+}
+
+/// task hiện tại đã được cập nhật thông số mới
+final class PromodorTimerEventOnUpdateTask extends PromodorTimerEvent {
+  final TaskModel updatedTask;
+  const PromodorTimerEventOnUpdateTask(this.updatedTask);
+
+  @override
+  List<Object> get props => [updatedTask];
+}
+
+/// khởi tạo lại `bloc state`
+final class PromodorTimerEventOnRefresh extends PromodorTimerEvent {}

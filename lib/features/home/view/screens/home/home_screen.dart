@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             create: (context) => TaskActionBloc(taskRepo: context.read<TaskRepo>()),
           ),
           BlocProvider(
-            create: (context) => PromodorTaskBloc(),
+            create: (context) => PromodorTaskBloc(taskRepo: context.read<TaskRepo>()),
           ),
           BlocProvider(
             create: (context) => PromodorTimerBloc(
@@ -37,6 +37,24 @@ class HomeScreen extends StatelessWidget {
         ],
         child: MultiBlocListener(
           listeners: [
+            BlocListener<PromodorTaskBloc, PromodorTaskState>(
+              listener: (context, state) async {                
+                // XỬ LÝ LỖI 
+                if (state.status == PromodorTaskStatus.failue) {
+                  final errorMessage = 'Something went wrong. We have to refresh screen.';
+                  Snackbar.show(context, type: SnackbarEnum.error, message: errorMessage);
+
+                  await Future.delayed(Duration(seconds: 4), () {
+                    if(context.mounted) {
+                      context.read<RecentlyTasksBloc>().add(RecentlyTasksOnFetched());
+                      context.read<PromodorTaskBloc>().add(PromodorTaskEventOnRefresh());
+                      context.read<PromodorTimerBloc>().add(PromodorTimerEventOnRefresh());
+                    }
+                  });
+                  return;
+                }
+              },
+            ),
             BlocListener<TaskActionBloc, TaskActionState>(
               listener: (context, state) {
                 // XỨ LÝ LOADING

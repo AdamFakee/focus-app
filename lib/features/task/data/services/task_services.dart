@@ -2,6 +2,7 @@ import 'package:focus_app/features/task/models/task_model.dart';
 import 'package:focus_app/utils/helpers/task_flag_helper.dart';
 import 'package:focus_app/utils/storages/sql/database.dart';
 import 'package:focus_app/utils/storages/sql/tables/task/task_table.dart';
+import 'package:sqflite/sqflite.dart';
 
 class TaskServices {
   // single ton
@@ -55,5 +56,15 @@ class TaskServices {
     await _markAfterCRUD();
 
     return result;
+  }
+
+  Future<int> updateTask(TaskModel task) async {
+    return await _db.update(
+      TaskTable.tableName,
+      task.toJson(),
+      where: '${TaskTable.columnTaskId} = ?',
+      whereArgs: [task.taskId],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
