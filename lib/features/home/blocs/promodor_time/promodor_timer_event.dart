@@ -58,6 +58,9 @@ final class _PromodoroTimerEventOnTicked extends PromodorTimerEvent {
   List<Object> get props => [seconds];
 }
 
+///  chạy stream đếm thời gian
+final class _PromodoroTimerEventOnStartTicked extends PromodorTimerEvent {}
+
 /// thay đổi task làm việc
 final class PromodorTimerEventOnChangeTask extends PromodorTimerEvent {
   final TaskModel newTask;

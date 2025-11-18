@@ -62,7 +62,7 @@ class PromodorTaskBloc extends Bloc<PromodorTaskEvent, PromodorTaskState> {
     final newCompletedPomodoros = isFullPomodoro
         ? (task.completedPomodoros + 1).clamp(0, task.totalPomodoros)
         : task.completedPomodoros;  
-    final newDurantionSeconds = task.durationSpent.inSeconds +  event.secondsCompleteInCurrentSection; 
+    final newDurantionSeconds = task.durationSpent.inSeconds +  event.secondsCompleteInCurrentSection - task.secondsCompleteInCurrentSection; 
 
     final updatedTask = task.copyWith(
       completedPomodoros: newCompletedPomodoros,
