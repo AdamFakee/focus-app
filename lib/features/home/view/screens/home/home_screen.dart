@@ -5,6 +5,7 @@ import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.
 import 'package:focus_app/features/home/blocs/promodor_time/test.dart';
 import 'package:focus_app/features/home/blocs/recently_tasks/recently_tasks_bloc.dart' hide SubmissionStatus;
 import 'package:focus_app/features/home/view/screens/home/home_page.dart';
+import 'package:focus_app/features/home/view/widgets/home/break_time_pop_up.dart';
 import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart';
 import 'package:focus_app/features/task/data/repos/task_repo.dart';
 import 'package:focus_app/utils/popups/fullscreen_loader.dart';
@@ -68,6 +69,19 @@ class HomeScreen extends StatelessWidget {
                   final errorMessage = state.errorMessage ?? 'Delete Task Fail.';
                   Snackbar.show(context, type: SnackbarEnum.error, message: errorMessage);
                   return;
+                }
+              },
+            ),
+            BlocListener<PromodorTimerBloc, PromodorTimerState>(
+              listenWhen: (previous, current) {
+                final statusChange = previous.status != current.status;
+
+                return statusChange;
+              },
+              listener: (context, state) async {                
+                // XỬ LÝ BREAK TIME
+                if(state.status == PromodorTimerStatus.breakTime) {
+                  showBreakTimePopup(context);
                 }
               },
             ),

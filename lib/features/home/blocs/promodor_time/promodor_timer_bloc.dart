@@ -17,6 +17,9 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
   final Ticker _ticker;
   StreamSubscription<int>? _tickerSubscription;
 
+  /// stream tính thời gian nghỉ
+  StreamSubscription<int>? _breakTimeTickerSubscription;
+
   TaskModel? currentTask;
 
   final PromodorTaskBloc _promodorTaskBloc;
@@ -40,6 +43,11 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       on<PromodorTimerEventOnChangeTask>(_onChangeTask);
       on<PromodorTimerEventOnUpdateTask>(_onUpdateTask);
       on<PromodorTimerEventOnRefresh>(_onRefresh);
+      on<PromodorTimerEventOnSkipSection>(_onSkipSection);
+      on<PromodorTimerEventOnEndSection>(_onEndSection);
+      on<PromodorTimerEventOnBreakTime>(_onBreakTime);
+      on<_PromodoroTimerEventOnBreakTimeTicked>(_onBreakTimeTicked);
+      on<PromodorTimerEventOnCancleBreakTime>(_onCancleBreakTime);
 
       /// subscription to [PromodorTaskBloc]
       /// 
@@ -52,6 +60,7 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
             
             // cập nhật lại currentTask
             currentTask = taskState.selectedTask;
+            add(PromodorTimerEventOnInitial(task: taskState.selectedTask!));
             return;
           }
           //- Chưa thực hiện đếm giờ lần nào
@@ -170,7 +179,12 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
         limit: Globals.timePerPoromodor * 60 - state.secondsCompleteInCurrentSection, 
         startAt: state.secondsCompleteInCurrentSection,
       )
-      .listen((seconds) => add(_PromodoroTimerEventOnTicked(seconds: seconds))); 
+      .listen(
+        (seconds) => add(_PromodoroTimerEventOnTicked(seconds: seconds)),
+        onDone: () {
+          add(PromodorTimerEventOnEndSection());
+        },
+      ); 
   }
 
   void _onChangeTask(PromodorTimerEventOnChangeTask event, Emitter emit) {
@@ -196,6 +210,79 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
     emit(PromodorTimerState());
   }
 
+  void _onSkipSection(PromodorTimerEventOnSkipSection event, Emitter emit) {
+    //- B1: huỷ stream cũ
+    _tickerSubscription?.cancel();
+
+    //- B2: 
+    // seconds = 0. (Nếu đặt = max => giao diện bị nháy)
+    // quay về trạng thái khởi tạo
+    emit(state.copyWith(
+      status: PromodorTimerStatus.initial,
+      secondsCompleteInCurrentSection: Globals.timePerPoromodor * 60,
+    ));
+
+    //- B3: phát sự kiện để lưu thông tin vào database
+    _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: Globals.timePerPoromodor * 60));
+  }
+
+  void _onEndSection(PromodorTimerEventOnEndSection event, Emitter emit) {
+    //- B1: huỷ stream cũ
+    _tickerSubscription?.cancel();
+
+    //- B2: 
+    // seconds = 0. (Nếu đặt = max => giao diện bị nháy)
+    // quay về trạng thái khởi tạo
+    emit(state.copyWith(
+      status: PromodorTimerStatus.sectionEnded,
+    ));
+
+    //- B3: phát sự kiện để lưu thông tin vào database
+    _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: state.secondsCompleteInCurrentSection));
+
+    //- B4: break time
+    add(PromodorTimerEventOnBreakTime());
+  }
+
+  void _onBreakTime(PromodorTimerEventOnBreakTime event, Emitter emit) {
+    //- B1: Kiểm tra mặc định có hiển thị breakTime hay không
+
+    //- B2: thay đổi trạng thái
+    emit(state.copyWith(
+      status: PromodorTimerStatus.breakTime
+    ));
+
+    //- B3: bắt đầu breakTime & kết thúc breakTime => chạy đồng hồ tiếp
+    _breakTimeTickerSubscription = Ticker().tick(
+      limit: Globals.breakTimePerPoromodor, 
+      startAt: 0
+    ).listen(
+      (seconds) {
+        add(_PromodoroTimerEventOnBreakTimeTicked(seconds: seconds));
+      },
+      onDone: () => add(PromodorTimerEventOnCancleBreakTime()),
+    );
+  }
+
+  void _onBreakTimeTicked(_PromodoroTimerEventOnBreakTimeTicked event, Emitter<PromodorTimerState> emit) {
+    emit(state.copyWith(
+      secondsInBreakTime: event.seconds
+    ));
+  }
+
+  void _onCancleBreakTime(PromodorTimerEventOnCancleBreakTime event, Emitter emit) {
+    //- B1: huỷ break time
+    _breakTimeTickerSubscription?.cancel();
+
+    //- B2: thay đổi trạng thái
+    emit(state.copyWith(
+      status: PromodorTimerStatus.endBreakTime
+    ));
+
+    //- B3: chạy đồng hồ
+    add(PromodorTimerEventOnStart());
+
+  }
 
   @override
   Future<void> close() {

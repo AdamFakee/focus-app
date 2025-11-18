@@ -81,3 +81,18 @@ final class PromodorTimerEventOnUpdateTask extends PromodorTimerEvent {
 
 /// khởi tạo lại `bloc state`
 final class PromodorTimerEventOnRefresh extends PromodorTimerEvent {}
+
+/// nghỉ 5 phút hoặc bỏ qua thời gian nghỉ sau khi kết thúc 1 section
+final class PromodorTimerEventOnBreakTime extends PromodorTimerEvent {}
+
+/// đếm thời gian cho breakTime
+final class _PromodoroTimerEventOnBreakTimeTicked extends PromodorTimerEvent {
+  final int seconds;
+  const _PromodoroTimerEventOnBreakTimeTicked({required this.seconds});
+
+  @override
+  List<Object> get props => [seconds];
+}
+
+/// huỷ breakTime
+final class PromodorTimerEventOnCancleBreakTime extends PromodorTimerEvent {}

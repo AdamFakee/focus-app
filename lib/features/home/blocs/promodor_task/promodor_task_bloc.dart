@@ -72,6 +72,10 @@ class PromodorTaskBloc extends Bloc<PromodorTaskEvent, PromodorTaskState> {
 
     try {
       await _taskRepo.updateTask(updatedTask);
+      print(event.secondsCompleteInCurrentSection);
+      print('----- DB Update ----');
+      print(task.toString());
+      print(updatedTask.toString());
 
       emit(state.copyWith(selectedTask: updatedTask));
     } catch (_) {

@@ -1,6 +1,6 @@
 part of 'promodor_timer_bloc.dart';
 
-enum PromodorTimerStatus { initial, running, paused, sectionEnded }
+enum PromodorTimerStatus { initial, running, paused, sectionEnded, breakTime, endBreakTime }
 
 extension PromodorTimerStatusX on PromodorTimerStatus {
   bool get isInitial => this == PromodorTimerStatus.initial;
@@ -43,6 +43,9 @@ class PromodorTimerState extends Equatable {
   /// 10 giây cập nhật 1 lần
   final double completeProgress;
 
+  /// đếm thời gian nghỉ
+  final int secondsInBreakTime;
+
   const PromodorTimerState({
     this.remaining = 0,
     this.isRunning = false,
@@ -55,7 +58,8 @@ class PromodorTimerState extends Equatable {
     this.completedPomodoros = 3,
     this.totalPomodoros = 8,
     this.secondsCompleteInCurrentSection = 0,
-    this.completeProgress = 0
+    this.completeProgress = 0,
+    this.secondsInBreakTime = 0
   });
 
   PromodorTimerState copyWith({
@@ -70,7 +74,8 @@ class PromodorTimerState extends Equatable {
     int? completedPomodoros,
     int? secondsCompleteInCurrentSection,
     int? totalPomodoros,
-    double? completeProgress
+    double? completeProgress,
+    int? secondsInBreakTime
   }) {
     return PromodorTimerState(
       remaining: remaining ?? this.remaining,
@@ -84,7 +89,8 @@ class PromodorTimerState extends Equatable {
       completedPomodoros: completedPomodoros ?? this.completedPomodoros,
       totalPomodoros: totalPomodoros ?? this.totalPomodoros,
       secondsCompleteInCurrentSection: secondsCompleteInCurrentSection ?? this.secondsCompleteInCurrentSection,
-      completeProgress: completeProgress ?? this.completeProgress
+      completeProgress: completeProgress ?? this.completeProgress,
+      secondsInBreakTime: secondsInBreakTime ?? this.secondsInBreakTime
     );
   }
 
@@ -101,7 +107,8 @@ class PromodorTimerState extends Equatable {
         completedPomodoros,
         secondsCompleteInCurrentSection,
         totalPomodoros,
-        completeProgress
+        completeProgress,
+        secondsInBreakTime
       ];
 
   /// thời gian dạng "MM:SS"

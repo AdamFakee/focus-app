@@ -75,7 +75,11 @@ class PomodorClock extends StatelessWidget {
                             PromodorTimerEventOnReset(),
                           );
                         },
-                        onSkipPressed: () {},
+                        onSkipPressed: () {
+                          context.read<PromodorTimerBloc>().add(
+                            PromodorTimerEventOnSkipSection(),
+                          );
+                        },
                       ),
                     ),
                   );

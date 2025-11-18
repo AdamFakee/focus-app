@@ -13,4 +13,9 @@ class Globals {
   /// 
   /// unit = `munite`
   static const timePerPoromodor = 1;
+
+  /// time for one break time section
+  /// 
+  /// unit = `seconds`
+  static const breakTimePerPoromodor = 10;
 }
