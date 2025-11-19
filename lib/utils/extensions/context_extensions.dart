@@ -11,4 +11,11 @@ extension ContextExtensions on BuildContext {
   bool isDarkMode() => Theme.of(this).brightness == Brightness.dark;
 
   double get keyboardHeight => MediaQuery.of(this).viewInsets.bottom;
+
+  /// Màn hình đang ở hướng nào?
+  /// 
+  /// `true`: hướng dọc
+  /// `false`: hướng ngang
+  bool get isPortrait => MediaQuery.of(this).orientation == Orientation.portrait;
+
 }

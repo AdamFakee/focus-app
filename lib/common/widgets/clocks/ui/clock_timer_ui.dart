@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:focus_app/common/widgets/clocks/ui/dialog/clock_session_dialog.dart';
-import 'package:focus_app/common/widgets/containers/icon_container.dart';
-import 'package:focus_app/common/widgets/modal_bottom_sheets/model_bottom_sheet_barrier.dart';
+import 'package:focus_app/common/widgets/clocks/ui/clock_timer_controls.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 
@@ -48,7 +46,12 @@ class ClockTimerUi extends StatelessWidget {
           _buildSessionIndicator(),
       
           // 3. PHẦN CÁC NÚT ĐIỀU KHIỂN
-          _buildControls(context),
+          ClockTimerControls(
+            isPaused: isPaused, 
+            onResetPressed: onResetPressed, 
+            onPlayPausePressed: onPlayPausePressed, 
+            onSkipPressed: onSkipPressed
+          )
         ],
       ),
     );
@@ -109,82 +112,7 @@ class ClockTimerUi extends StatelessWidget {
     );
   }
 
-  /// Widget chứa các nút điều khiển: Reset, Play/Pause, Skip
-  Widget _buildControls(BuildContext ctx) {
-    return Row(
-      spacing: Sizes.md,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Nút Reset
-        IconContainer(
-          icon: Icons.refresh,
-          backgroundColor: AppColors.primaryLight,
-          onPressed: () {
-            ModelBottomSheetBarrier().show(
-              context: ctx,
-              child: ClockSessionDialog(
-                title: "Reset Session",
-                desc: "Reset the current focus session?",
-                onConfirmed: () {
-                  onResetPressed();
-                },
-                confirmTitle: "Yes, Reset",
-              ),
-              isSnap: false,
-              initialChildSize: 0.3,
-              minChildSize: 0.3,
-            );
-          },
-        ),
-        
-        // Nút Play/Pause lớn ở giữa
-        InkWell(
-          onTap: onPlayPausePressed,
-          customBorder: const CircleBorder(),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.primary,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary,
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: const Offset(0, 2),
-                )
-              ],
-            ),
-            child: Icon(
-              isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
-              size: 40,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        
-        // Nút Skip
-        IconContainer(
-          icon: Icons.skip_next,
-          backgroundColor: AppColors.primaryLight,
-          onPressed: () {
-            ModelBottomSheetBarrier().show(
-              context: ctx,
-              child: ClockSessionDialog(
-                title: "Skip Session",
-                desc: "Skip the current focus session?",
-                onConfirmed: () {
-                  onSkipPressed();
-                },
-                confirmTitle: "Yes, Skip",
-              ),
-              isSnap: false,
-              initialChildSize: 0.3,
-              minChildSize: 0.3,
-            );
-          },
-        )
-      ],
-    );
-  }
+  
+  
 }
+

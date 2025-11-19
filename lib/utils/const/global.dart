@@ -18,4 +18,10 @@ class Globals {
   /// 
   /// unit = `seconds`
   static const breakTimePerPoromodor = 10;
+
+  /// chiều cao của thẻ lật khi dùng trong đếm giờ animation
+  static const flipCounterTimerCardHeight = 175.0;
+
+  /// khoảng cách giữa 2 nửa thẻ lật trong đếm giờ animation
+  static const halfFlipCounterTimerCardSpacing = 3.0;
 }
