@@ -12,6 +12,7 @@ import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.
 import 'package:focus_app/features/home/view/widgets/home/full_screen_clock.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/extensions/context_extensions.dart';
+import 'package:focus_app/utils/helpers/device_helper.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';
 
 class PomodorClock extends StatelessWidget {
@@ -131,8 +132,13 @@ class PomodorClock extends StatelessWidget {
                   minChildSize: 0.5,
                 );
               },
-              onFullScreenPressed: () {
-                FullScreenClock.show(context);
+              onFullScreenPressed: () async {
+                await DeviceHelper.rotateToLandscape();
+                if(context.mounted) {
+                  FullScreenClock.show(context);
+                } else {
+                  await DeviceHelper.rotateToPotrait();
+                }
               },
             );
           },
