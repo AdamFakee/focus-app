@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/buttons/cancel_confirm_buttons.dart';
+import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
+import 'package:focus_app/utils/helpers/audio_helper.dart';
 
-// Enum để quản lý các loại âm thanh
-enum WhiteNoiseSound { none, rainfall, oceanWaves, forestWind }
 
 class ClockWhiteNoiseDialog extends StatefulWidget {
   const ClockWhiteNoiseDialog({super.key});
@@ -15,9 +16,9 @@ class ClockWhiteNoiseDialog extends StatefulWidget {
 }
 
 class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
+
   // Biến trạng thái
   double _currentVolume = 0.75; // Âm lượng hiện tại (0.0 đến 1.0)
-  WhiteNoiseSound _selectedSound = WhiteNoiseSound.rainfall; // Âm thanh được chọn
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,9 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
           Center(
             child: Text(
               "White Noise",
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           const SizedBox(height: Sizes.spaceBtwSections),
@@ -40,30 +43,38 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
           _buildVolumeSlider(),
           const SizedBox(height: Sizes.md),
 
-
           // Danh sách các âm thanh
-          _buildSoundOption(
-            icon: CupertinoIcons.cloud_rain,
-            title: 'Rainfall',
-            sound: WhiteNoiseSound.rainfall,
+          BlocBuilder<AudioBloc, AudioState>(
+            builder: (context, state) {
+              return Column(
+                children: state.audios.map((audio) {
+                  return _buildSoundOption(
+                    icon: CupertinoIcons.cloud_rain, 
+                    audio: audio,
+                    selectedAudio: state.selectedAudio,
+                    onTap: () async {
+                      await AudioHelper().play(
+                        audio: audio,
+                        duration: Duration(seconds: 5)
+                      ); 
+                      if(context.mounted) {
+                        context.read<AudioBloc>().add(AudioEventOnChangeSelectedAudio(audio: audio));
+                      }
+                    },
+                  );
+                }).toList(),
+              );
+            },
           ),
-          _buildSoundOption(
-            icon: CupertinoIcons.wind,
-            title: 'Ocean Waves',
-            sound: WhiteNoiseSound.oceanWaves,
-          ),
-          _buildSoundOption(
-            icon: CupertinoIcons.tree,
-            title: 'Forest Wind',
-            sound: WhiteNoiseSound.forestWind,
-          ),
+
+
           const SizedBox(height: Sizes.spaceBtwSections),
 
           CancelConfirmButtons(
             onConfirmed: () {},
             onCanceled: () {},
             confirmTitle: 'Save',
-          )
+          ),
         ],
       ),
     );
@@ -75,7 +86,9 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
       children: [
         Text(
           "Volume",
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
         ),
         Expanded(
           child: SliderTheme(
@@ -106,12 +119,14 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
   /// Widget con để xây dựng một mục tùy chọn âm thanh
   Widget _buildSoundOption({
     IconData? icon,
-    required String title,
-    required WhiteNoiseSound sound,
+    required AudioModel audio,                
+    required AudioModel? selectedAudio,       
+    required VoidCallback onTap,              
   }) {
-    final bool isSelected = _selectedSound == sound;
+    final bool isSelected = audio == selectedAudio;
+
     return InkWell(
-      onTap: () => setState(() => _selectedSound = sound),
+      onTap: onTap,
       child: Column(
         children: [
           const Divider(height: 1, thickness: 0.5),
@@ -120,25 +135,24 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
             child: Row(
               children: [
                 // Icon (nếu có)
-                if (icon != null)
-                  Icon(icon),
-                
+                if (icon != null) Icon(icon),
+
                 // Khoảng cách nếu không có icon để căn chỉnh
                 if (icon == null) const SizedBox(width: 24),
 
                 const SizedBox(width: Sizes.md),
-                
+
                 // Tiêu đề
                 Expanded(
                   child: Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyLarge
+                    audio.title,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
-                
+
                 // Dấu tick nếu được chọn
                 if (isSelected)
-                  Icon(Icons.check, color: AppColors.red, size: 24),
+                  const Icon(Icons.check, color: AppColors.red, size: 24),
               ],
             ),
           ),
@@ -146,4 +160,5 @@ class _ClockWhiteNoiseDialogState extends State<ClockWhiteNoiseDialog> {
       ),
     );
   }
+
 }

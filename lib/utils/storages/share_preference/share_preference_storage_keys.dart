@@ -8,4 +8,7 @@ class SharePreferenceStorageKeys {
 
   /// setting locale language
   static const language = "LANGUAGE";
+
+  /// selected audio pomodoro
+  static const audio = 'SELECTED_AUDIO_POMODORO';
 }

@@ -24,6 +24,9 @@ dependencies:
   equatable: ^2.0.0
   flutter_slidable: ^4.0.3
 
+  # audio
+  audioplayers: ^6.5.1
+
   # picker
   flutter_colorpicker: ^1.1.0
   
@@ -59,6 +62,9 @@ flutter:
   assets:
     # env
     - lib/envs/
+
+    # audio
+    - assets/audio/
 
   # fonts
   fonts:

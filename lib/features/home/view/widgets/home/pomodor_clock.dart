@@ -8,12 +8,15 @@ import 'package:focus_app/common/widgets/clocks/painter/counter_clock_progress.d
 import 'package:focus_app/common/widgets/clocks/ui/dialog/clock_white_noise_dialog.dart';
 import 'package:focus_app/common/widgets/containers/rounded_container.dart';
 import 'package:focus_app/common/widgets/modal_bottom_sheets/model_bottom_sheet_barrier.dart';
+import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.dart';
 import 'package:focus_app/features/home/view/widgets/home/full_screen_clock.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/extensions/context_extensions.dart';
+import 'package:focus_app/utils/helpers/audio_helper.dart';
 import 'package:focus_app/utils/helpers/device_helper.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';
+import 'package:focus_app/utils/storages/share_preference/share_preference_storage.dart';
 
 class PomodorClock extends StatelessWidget {
   const PomodorClock({super.key});
@@ -126,7 +129,13 @@ class PomodorClock extends StatelessWidget {
               onWhiteNoisePressed: () {
                 ModelBottomSheetBarrier().show(
                   context: context,
-                  child: const ClockWhiteNoiseDialog(),
+                  child: BlocProvider.value(
+                    value: AudioBloc(
+                      audio: AudioHelper(),
+                      storage: SharePreferenceStorage()
+                    )..add(AudioEventOnInitial()),
+                    child: const ClockWhiteNoiseDialog(),
+                  ),
                   isSnap: false,
                   initialChildSize: 0.5,
                   minChildSize: 0.5,
