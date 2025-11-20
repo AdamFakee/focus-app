@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:focus_app/common/widgets/clocks/counter_clock_const.dart';
 
@@ -12,8 +14,8 @@ class CounterClockProgress extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final w = size.width;
-    final h = size.height;
+    final w = min(size.height, size.width);
+    final h = min(size.height, size.width);
     final center = Offset(w / 2, h / 2);
 
 

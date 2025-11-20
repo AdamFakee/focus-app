@@ -11,6 +11,7 @@ import 'package:focus_app/common/widgets/modal_bottom_sheets/model_bottom_sheet_
 import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.dart';
 import 'package:focus_app/features/home/view/widgets/home/full_screen_clock.dart';
 import 'package:focus_app/utils/const/sizes.dart';
+import 'package:focus_app/utils/extensions/context_extensions.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';
 
 class PomodorClock extends StatelessWidget {
@@ -18,6 +19,8 @@ class PomodorClock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final potrait = context.isPortrait;
+
     return Column(
       spacing: Sizes.md,
       children: [
@@ -25,6 +28,7 @@ class PomodorClock extends StatelessWidget {
           height: Sizes.clockBannerHeight,
           child: Stack(
             clipBehavior: Clip.none,
+            alignment: AlignmentGeometry.center,
             children: [
               // phần nền
               RepaintBoundary(
@@ -58,7 +62,7 @@ class PomodorClock extends StatelessWidget {
                   return Align(
                     alignment: Alignment.bottomCenter,
                     child: Transform.translate(
-                      offset: const Offset(0, 60),
+                      offset: Offset(potrait ? 0 : -13, 60),
                       child: ClockTimerUi(
                         time: state.formatDuration,
                         statusText: state.mode.name,
