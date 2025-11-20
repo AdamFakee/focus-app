@@ -13,10 +13,8 @@ import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.
 import 'package:focus_app/features/home/view/widgets/home/full_screen_clock.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/extensions/context_extensions.dart';
-import 'package:focus_app/utils/helpers/audio_helper.dart';
 import 'package:focus_app/utils/helpers/device_helper.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';
-import 'package:focus_app/utils/storages/share_preference/share_preference_storage.dart';
 
 class PomodorClock extends StatelessWidget {
   const PomodorClock({super.key});
@@ -130,10 +128,7 @@ class PomodorClock extends StatelessWidget {
                 ModelBottomSheetBarrier().show(
                   context: context,
                   child: BlocProvider.value(
-                    value: AudioBloc(
-                      audio: AudioHelper(),
-                      storage: SharePreferenceStorage()
-                    )..add(AudioEventOnInitial()),
+                    value: context.read<AudioBloc>(),
                     child: const ClockWhiteNoiseDialog(),
                   ),
                   isSnap: false,

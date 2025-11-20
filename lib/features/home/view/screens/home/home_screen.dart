@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_time/promodor_timer_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_time/test.dart';
@@ -8,8 +9,10 @@ import 'package:focus_app/features/home/view/screens/home/home_page.dart';
 import 'package:focus_app/features/home/view/widgets/home/break_time_pop_up.dart';
 import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart';
 import 'package:focus_app/features/task/data/repos/task_repo.dart';
+import 'package:focus_app/utils/helpers/audio_helper.dart';
 import 'package:focus_app/utils/popups/fullscreen_loader.dart';
 import 'package:focus_app/utils/popups/snackbar.dart';
+import 'package:focus_app/utils/storages/share_preference/share_preference_storage.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,6 +37,12 @@ class HomeScreen extends StatelessWidget {
               promodorTaskBloc: context.read<PromodorTaskBloc>(),
               ticker: Ticker()
             ),
+          ),
+          BlocProvider(
+            create: (context) => AudioBloc(
+              audio: AudioHelper(),
+              storage: SharePreferenceStorage()
+            )..add(AudioEventOnInitial()),
           ),
         ],
         child: MultiBlocListener(
