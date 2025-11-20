@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/utils/const/global.dart';
 import 'package:focus_app/utils/helpers/audio_helper.dart';
 import 'package:focus_app/utils/storages/share_preference/share_preference_storage_abstract.dart';
 import 'package:focus_app/utils/storages/share_preference/share_preference_storage_keys.dart';
@@ -25,6 +26,7 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
       on<AudioEventOnStopAudio>(_onStopAudio);
       on<AudioEventOnPauseAudio>(_onPauseAudio);
       on<AudioEventOnResumeAudio>(_onResumeAudio);
+      on<AudioEventOnPlayAudioInBreakTime>(_onPlayAudioInBreakTime);
   }
 
   void _onInitial(AudioEventOnInitial event, Emitter emit) async {
@@ -66,6 +68,14 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
       audioUsed = state.selectedAudio!;
     }
     await _audio.play(audio: audioUsed, loop: true);
+  }
+
+  void _onPlayAudioInBreakTime(AudioEventOnPlayAudioInBreakTime event, Emitter emit) async {
+    AudioModel audioBreakTime = AudioModel.fromAsset(Globals.assetPathInBreakTime);
+
+    await _audio.play(audio: audioBreakTime, duration: Duration(
+      seconds: Globals.notifyBreakTimeByAudioInSeconds
+    ));
   }
 
   void _onStopAudio(AudioEventOnStopAudio event, Emitter emit) async {

@@ -268,7 +268,10 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
     //- B3: phát sự kiện để lưu thông tin vào database
     _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: state.secondsCompleteInCurrentSection));
 
-    //- B4: break time
+    //- B4: stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
+
+    //- B5: break time
     add(PromodorTimerEventOnBreakTime());
   }
 
@@ -280,8 +283,8 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       status: PromodorTimerStatus.breakTime
     ));
 
-    //- B3: stop audio
-    _audioBloc.add(AudioEventOnStopAudio());
+    //- B3: chạy audio thông báo đã đến thời điểm breakTime
+    _audioBloc.add(AudioEventOnPlayAudioInBreakTime());
 
     //- B4: bắt đầu breakTime & kết thúc breakTime => chạy đồng hồ tiếp
     _breakTimeTickerSubscription = Ticker().tick(
@@ -310,7 +313,10 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       status: PromodorTimerStatus.endBreakTime
     ));
 
-    //- B3: chạy đồng hồ
+    //- B3: stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
+
+    //- B4: chạy đồng hồ
     add(PromodorTimerEventOnStart());
 
   }

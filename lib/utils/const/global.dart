@@ -24,4 +24,10 @@ class Globals {
 
   /// khoảng cách giữa 2 nửa thẻ lật trong đếm giờ animation
   static const halfFlipCounterTimerCardSpacing = 3.0;
+
+  /// asset path chứa âm thanh khi chạy kết thúc `pomodoro section` để đến breakTime
+  static const assetPathInBreakTime = 'assets/audio/clock-alarm-8761.mp3';
+
+  /// thời gian phát âm thanh thông báo breakTime
+  static const notifyBreakTimeByAudioInSeconds = 5;
 }

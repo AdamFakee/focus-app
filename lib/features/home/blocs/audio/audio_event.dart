@@ -25,4 +25,8 @@ final class AudioEventOnPauseAudio extends AudioEvent {}
 
 final class AudioEventOnResumeAudio extends AudioEvent {}
 
+/// Phát audio thông báo đã tới BreakTime và tự động dừng lại sau một thời gian nhất định
+final class AudioEventOnPlayAudioInBreakTime extends AudioEvent {}
+
+
 
