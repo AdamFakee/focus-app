@@ -55,19 +55,27 @@ class AudioHelper {
   /// Play từ AudioModel
   Future<void> play({
     required AudioModel audio,
-    Duration? duration
+    Duration? duration,
+    bool loop = false,
   }) async {
     await player.stop();
+
+    // set loop
+    await player.setReleaseMode(
+      loop ? ReleaseMode.loop : ReleaseMode.stop,
+    );
+
     await player.play(
       AssetSource(audio.playPath),
     );
 
-    if(duration != null) {
+    if (duration != null) {
       Future.delayed(duration, () {
         player.stop();
       });
     }
   }
+
 
 
   /// Các controls khác

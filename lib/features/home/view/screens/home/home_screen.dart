@@ -33,16 +33,17 @@ class HomeScreen extends StatelessWidget {
             create: (context) => PromodorTaskBloc(taskRepo: context.read<TaskRepo>()),
           ),
           BlocProvider(
-            create: (context) => PromodorTimerBloc(
-              promodorTaskBloc: context.read<PromodorTaskBloc>(),
-              ticker: Ticker()
-            ),
-          ),
-          BlocProvider(
             create: (context) => AudioBloc(
               audio: AudioHelper(),
               storage: SharePreferenceStorage()
             )..add(AudioEventOnInitial()),
+          ),
+          BlocProvider(
+            create: (context) => PromodorTimerBloc(
+              promodorTaskBloc: context.read<PromodorTaskBloc>(),
+              ticker: Ticker(),
+              audioBloc: context.read<AudioBloc>(),
+            ),
           ),
         ],
         child: MultiBlocListener(

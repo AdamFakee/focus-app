@@ -21,6 +21,10 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     super(AudioState()) {
       on<AudioEventOnInitial>(_onInitial);
       on<AudioEventOnChangeSelectedAudio>(_onChangeSelectedAudio);
+      on<AudioEventOnPlayAudio>(_onPlayAudio);
+      on<AudioEventOnStopAudio>(_onStopAudio);
+      on<AudioEventOnPauseAudio>(_onPauseAudio);
+      on<AudioEventOnResumeAudio>(_onResumeAudio);
   }
 
   void _onInitial(AudioEventOnInitial event, Emitter emit) async {
@@ -47,5 +51,32 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
     emit(state.copyWith(
       selectedAudio: event.audio
     ));
+  }
+
+  void _onPlayAudio(AudioEventOnPlayAudio event, Emitter emit) async {
+    AudioModel audioUsed;
+
+    //- Không có audio nào trong asset
+    if(state.audios.isEmpty) return;
+
+    //- Chưa chọn audio mặc định => chạy audio đầu tiên
+    if(state.selectedAudio == null) {
+      audioUsed = state.audios.first;
+    } else {
+      audioUsed = state.selectedAudio!;
+    }
+    await _audio.play(audio: audioUsed, loop: true);
+  }
+
+  void _onStopAudio(AudioEventOnStopAudio event, Emitter emit) async {
+    await _audio.stop();
+  }
+
+  void _onPauseAudio(AudioEventOnPauseAudio event, Emitter emit) async {
+    await _audio.pause();
+  }
+
+  void _onResumeAudio(AudioEventOnResumeAudio event, Emitter emit) async {
+    await _audio.resume();
   }
 }

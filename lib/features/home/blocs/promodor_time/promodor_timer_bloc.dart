@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
 import 'package:focus_app/features/home/blocs/promodor_time/test.dart';
 import 'package:focus_app/features/task/models/task_model.dart';
@@ -22,14 +23,18 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
 
   TaskModel? currentTask;
 
+  final AudioBloc _audioBloc;
+
   final PromodorTaskBloc _promodorTaskBloc;
 
   PromodorTimerBloc({
     required Ticker ticker,
-    required PromodorTaskBloc promodorTaskBloc
+    required PromodorTaskBloc promodorTaskBloc,
+    required AudioBloc audioBloc
   }) : 
     _ticker = ticker,
     _promodorTaskBloc = promodorTaskBloc,
+    _audioBloc = audioBloc,
 
     super(PromodorTimerState()) {
       on<PromodorTimerEventOnInitial>(_onInitial);
@@ -117,23 +122,36 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
     // Hủy subscription cũ nếu có
     _tickerSubscription?.cancel();
 
+    // play audio
+    _audioBloc.add(AudioEventOnPlayAudio());
+
     // đăng ký stream mới
     add(_PromodoroTimerEventOnStartTicked());
   }
 
   void _onPause(PromodorTimerEventOnPause event, Emitter emit) {
+    //- B1: thay đổi state
     emit(state.copyWith(
       status: PromodorTimerStatus.paused
     ));
 
+    //- B2: pause audio
+    _audioBloc.add(AudioEventOnPauseAudio());
+
+    //- B3: pause timer
     _tickerSubscription?.pause();
   }
 
   void _onResume(PromodorTimerEventOnResume event, Emitter emit) {
+    //- B1: thay đổi trạng thái state
     emit(state.copyWith(
       status: PromodorTimerStatus.running
     ));
 
+    //- B2: resume audio
+    _audioBloc.add(AudioEventOnResumeAudio());
+
+    //- B3: resume stream
     _tickerSubscription?.resume();
   }
 
@@ -148,13 +166,20 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
 
     //- B3: phát sự kiện để lưu thông tin vào database
     _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: state.secondsCompleteInCurrentSection));
+
+    //- B4: stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
+
   }
 
   void _onReset(PromodorTimerEventOnReset event, Emitter emit) {
-    // huỷ stream cũ
+    //- B1: huỷ stream cũ
     _tickerSubscription?.cancel();
 
-    // reset 
+    // stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
+
+    //- B2: reset 
     emit(state.copyWith(
       secondsCompleteInCurrentSection: 0,
       completeProgress: 0,
@@ -224,6 +249,9 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
 
     //- B3: phát sự kiện để lưu thông tin vào database
     _promodorTaskBloc.add(PromodorTaskEventOnUpdate(secondsCompleteInCurrentSection: Globals.timePerPoromodor * 60));
+
+    //- B4: stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
   }
 
   void _onEndSection(PromodorTimerEventOnEndSection event, Emitter emit) {
@@ -252,7 +280,10 @@ class PromodorTimerBloc extends Bloc<PromodorTimerEvent, PromodorTimerState> {
       status: PromodorTimerStatus.breakTime
     ));
 
-    //- B3: bắt đầu breakTime & kết thúc breakTime => chạy đồng hồ tiếp
+    //- B3: stop audio
+    _audioBloc.add(AudioEventOnStopAudio());
+
+    //- B4: bắt đầu breakTime & kết thúc breakTime => chạy đồng hồ tiếp
     _breakTimeTickerSubscription = Ticker().tick(
       limit: Globals.breakTimePerPoromodor, 
       startAt: 0

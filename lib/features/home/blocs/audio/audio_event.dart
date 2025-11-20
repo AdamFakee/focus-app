@@ -15,3 +15,14 @@ final class AudioEventOnChangeSelectedAudio extends AudioEvent {
   @override
   List<Object> get props => [audio];
 }
+
+
+final class AudioEventOnPlayAudio extends AudioEvent {}
+
+final class AudioEventOnStopAudio extends AudioEvent {}
+
+final class AudioEventOnPauseAudio extends AudioEvent {}
+
+final class AudioEventOnResumeAudio extends AudioEvent {}
+
+

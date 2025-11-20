@@ -12,7 +12,7 @@ class Globals {
   /// time for one poromodor
   /// 
   /// unit = `munite`
-  static const timePerPoromodor = 100;
+  static const timePerPoromodor = 1;
 
   /// time for one break time section
   /// 
