@@ -23,6 +23,14 @@ dependencies:
   dio: ^5.9.0
   equatable: ^2.0.0
   flutter_slidable: ^4.0.3
+  device_info_plus: ^12.2.0
+  permission_handler: ^12.0.1
+
+  # services
+  flutter_background_service: ^5.1.0
+
+  # notifications
+  flutter_local_notifications: ^19.5.0
 
   # audio
   audioplayers: ^6.5.1

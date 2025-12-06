@@ -1,0 +1,4 @@
+enum PomodoroBackgroundEvents {
+  pomodoroStart, 
+  pomodoroStop
+}
