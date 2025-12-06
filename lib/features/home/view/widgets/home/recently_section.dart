@@ -4,7 +4,6 @@ import 'package:focus_app/common/widgets/cards/task_card.dart';
 import 'package:focus_app/common/widgets/containers/icon_container.dart';
 import 'package:focus_app/common/widgets/feedbacks/not_found_item.dart';
 import 'package:focus_app/common/widgets/sections/section_title.dart';
-import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
 import 'package:focus_app/features/home/blocs/recently_tasks/recently_tasks_bloc.dart';
 import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart';
 import 'package:focus_app/utils/const/colors.dart';
@@ -125,8 +124,13 @@ class _RecentlySectionState extends State<RecentlySection> with RouteAware {
                         backgroundColor: AppColors.lightGray,
 
                         // chọn task để chạy
-                        onPressed: () {
-                          context.read<PromodorTaskBloc>().add(PromodorTaskEventOnSelectTask(task: task));
+                        onPressed: () async {
+                          await context.push<bool>(AppRouterNames.pomodoro, extra: task);
+                          final shouldFetch = await TaskFlagHelper.shouldRefresh(_currentTaskTableCreateAt);
+                          print(shouldFetch);
+                          if ( shouldFetch && context.mounted) {
+                            context.read<RecentlyTasksBloc>().add(RecentlyTasksOnFetched());
+                          } 
                         },
                       ),
                       onDelete: task.taskId != null ? () {

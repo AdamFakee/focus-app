@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/cards/task_card.dart';
-import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
-import 'package:focus_app/features/home/view/widgets/home/pomodor_clock.dart';
+import 'package:focus_app/features/pomodoro/bloc/promodor_task/promodor_task_bloc.dart';
+import 'package:focus_app/features/pomodoro/views/widgets/pomodoro/pomodor_clock.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/popups/confirm_popup.dart';

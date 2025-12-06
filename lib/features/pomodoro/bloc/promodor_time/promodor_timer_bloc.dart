@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
-import 'package:focus_app/features/home/blocs/promodor_task/promodor_task_bloc.dart';
-import 'package:focus_app/features/home/blocs/promodor_time/test.dart';
+import 'package:focus_app/features/pomodoro/bloc/audio/audio_bloc.dart';
+import 'package:focus_app/features/pomodoro/bloc/promodor_task/promodor_task_bloc.dart';
+import 'package:focus_app/features/pomodoro/bloc/promodor_time/ticker.dart';
 import 'package:focus_app/features/task/models/task_model.dart';
 import 'package:focus_app/utils/const/global.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:focus_app/common/widgets/buttons/cancel_confirm_buttons.dart';
-import 'package:focus_app/features/home/blocs/audio/audio_bloc.dart';
+import 'package:focus_app/features/pomodoro/bloc/audio/audio_bloc.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
 import 'package:focus_app/utils/helpers/audio_helper.dart';

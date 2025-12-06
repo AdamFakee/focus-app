@@ -12,11 +12,3 @@ class Ticker {
     ).take(limit);
   }
 }
-
-// void main () {
-//   StreamSubscription<int>? sub;
-
-//   sub = Ticker(limit: 10).tick().listen((i) {
-//     print(i);
-//   });
-// }

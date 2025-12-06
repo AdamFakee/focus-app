@@ -21,4 +21,7 @@ class AppRouterNames {
   static String editProject(int projectId) {
     return '$projects/edit/$projectId';
   }
+
+  // ------------ Other router ----------------
+  static const pomodoro = '/pomodoro';
 }

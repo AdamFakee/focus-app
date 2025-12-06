@@ -59,12 +59,16 @@ class TaskServices {
   }
 
   Future<int> updateTask(TaskModel task) async {
-    return await _db.update(
+    final result = await _db.update(
       TaskTable.tableName,
       task.toJson(),
       where: '${TaskTable.columnTaskId} = ?',
       whereArgs: [task.taskId],
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
+    await _markAfterCRUD();
+
+    return result;
   }
 }

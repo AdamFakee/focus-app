@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:focus_app/data/services/background/tasks/pomodoro/pomodoro_background_events.dart';
 import 'package:focus_app/data/services/notifications/pomodoro_notification_service.dart';
-import 'package:focus_app/features/home/blocs/promodor_time/test.dart';
+import 'package:focus_app/features/pomodoro/bloc/promodor_time/ticker.dart';
 import 'package:focus_app/utils/const/global.dart';
 
 

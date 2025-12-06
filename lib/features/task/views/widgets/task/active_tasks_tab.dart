@@ -9,10 +9,34 @@ import 'package:focus_app/features/task/blocs/task_action/task_action_bloc.dart'
 import 'package:focus_app/features/task/models/task_model.dart';
 import 'package:focus_app/utils/const/colors.dart';
 import 'package:focus_app/utils/const/sizes.dart';
+import 'package:focus_app/utils/helpers/task_flag_helper.dart';
+import 'package:focus_app/utils/routers/app_router_names.dart';
+import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class ActiveTasksTab extends StatelessWidget {
+class ActiveTasksTab extends StatefulWidget {
+
   const ActiveTasksTab({super.key});
+
+  @override
+  State<ActiveTasksTab> createState() => _ActiveTasksTabState();
+}
+
+class _ActiveTasksTabState extends State<ActiveTasksTab> {
+  /// thời điểm [CRUD] mới nhất của [Task_Table] khi [RecentlySection] được khởi tạo 
+  DateTime? _currentTaskTableCreateAt;
+
+  @override
+  void initState() {
+    super.initState();
+ 
+    _loadInitialData();
+  }
+
+
+  Future<void> _loadInitialData() async {
+    _currentTaskTableCreateAt = await TaskFlagHelper.getLastTaskChange();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +67,13 @@ class ActiveTasksTab extends StatelessWidget {
                 onDelete: task.taskId != null ? () {
                   context.read<TaskActionBloc>().add(TaskActionOnDelete(taskId: task.taskId!));
                 } : null,
+                onTap: () async {
+                  await context.push<bool>(AppRouterNames.pomodoro, extra: task);
+                  final shouldFetch = await TaskFlagHelper.shouldRefresh(_currentTaskTableCreateAt);
+                  if ( shouldFetch && context.mounted) {
+                    context.read<ActiveTasksBloc>().add(LazyLoadingRefresh());
+                  } 
+                },
               );
             },
           ), 

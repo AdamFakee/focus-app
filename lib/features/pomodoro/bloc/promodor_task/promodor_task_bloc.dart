@@ -25,8 +25,10 @@ class PromodorTaskBloc extends Bloc<PromodorTaskEvent, PromodorTaskState> {
     }
 
   void _onSelectTask(PromodorTaskEventOnSelectTask event, Emitter emit) {
-    add(PromodorTaskEventOnAskChangeTask(
-      penddingTask: event.task,
+    emit(state.copyWith(
+      selectedTask: event.task,
+      penddingTask: null,
+      status: PromodorTaskStatus.initial
     ));
   }
 
@@ -72,11 +74,6 @@ class PromodorTaskBloc extends Bloc<PromodorTaskEvent, PromodorTaskState> {
 
     try {
       await _taskRepo.updateTask(updatedTask);
-      print(event.secondsCompleteInCurrentSection);
-      print('----- DB Update ----');
-      print(task.toString());
-      print(updatedTask.toString());
-
       emit(state.copyWith(selectedTask: updatedTask));
     } catch (_) {
       emit(state.copyWith(status: PromodorTaskStatus.failue));

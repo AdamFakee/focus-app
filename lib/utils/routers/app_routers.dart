@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:focus_app/utils/routers/app_router_obsever.dart';
 import 'package:focus_app/utils/routers/bottom_navigations/bottom_navigation.dart';
+import 'package:focus_app/utils/routers/others/other_routers.dart';
 import 'package:go_router/go_router.dart';
 
 
@@ -15,6 +16,9 @@ class AppRouters {
     routes: [
       // Bottom navigation
       BottomNavigation.routers,
+
+      // Other router
+      ...OtherRouters.routers,
     ],
   ); 
 }
