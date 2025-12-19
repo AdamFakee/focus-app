@@ -1,3 +1,6 @@
+![alt text](image-1.png)
+![alt text](image-2.png)
+
 # ✨ Focus App  
 ![status](https://img.shields.io/badge/Status-Developing-blue)  ![platform](https://img.shields.io/badge/Platform-Android-green)  ![language](https://img.shields.io/badge/Flutter-Dart-02569B?logo=flutter) ![native](https://img.shields.io/badge/Native-Kotlin-orange)
 
